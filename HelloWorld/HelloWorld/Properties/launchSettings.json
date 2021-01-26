@@ -1,7 +1,8 @@
 {
   "profiles": {
     "HelloWorld": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "Vovan apple Mike"
     }
   }
 }
