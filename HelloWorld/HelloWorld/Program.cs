@@ -6,7 +6,7 @@ namespace AV.ProgrammingWithCSharp.HelloWorld
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello Vovan!");
+            Console.WriteLine("Hello " + args[0] + "!");
         }
     }
 }
