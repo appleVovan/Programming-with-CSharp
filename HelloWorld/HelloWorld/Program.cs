@@ -12,7 +12,17 @@ namespace AV.ProgrammingWithCSharp.HelloWorld
             }
             else
             {
-                Console.WriteLine("Hello!");
+                Console.WriteLine("This application expects to receive name as a parameter. Please type in your name and press Enter to receive a message\"Hello [Your Name]!\" " +
+                    "or press Enter to receive a message \"Hello!\"");
+                string userInput = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(userInput))
+                {
+                    Console.WriteLine("Hello!");
+                }
+                else
+                {
+                    Console.WriteLine("Hello " + userInput + "!");
+                }
             }            
         }
     }
