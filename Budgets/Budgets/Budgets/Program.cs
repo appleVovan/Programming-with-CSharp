@@ -6,7 +6,10 @@ namespace AV.ProgrammingWithCSharp.Budgets
     {
         static void Main(string[] args)
         {
-
+            var x = 45.3;
+            var y = 27.2;
+            var xy = x + y;
+            Console.WriteLine(xy);
         }
     }
 }
