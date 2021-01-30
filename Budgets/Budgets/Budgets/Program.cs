@@ -8,10 +8,15 @@ namespace AV.ProgrammingWithCSharp.Budgets
         static void Main(string[] args)
         {
             var transactions = new List<double> { 27.3, 4.8, 384.486 };
-            var result = transactions[0];
-            result += transactions[1];
-            result += transactions[2];
-            Console.WriteLine(result);
+
+            var result = 0.0;
+
+            foreach (double transaction in transactions)
+            {
+                result += transaction;
+            }
+            result /= transactions.Count;
+            Console.WriteLine($"The average transaction is ${result:N2}");
         }
     }
 }
