@@ -4,11 +4,13 @@ namespace AV.ProgrammingWithCSharp.Budgets
 {
     class Budget
     {
-        List<double> transactions;
+        private List<double> transactions;
+        private string name;
 
-        public Budget()
+        public Budget(string name)
         {
             transactions = new List<double>();
+            this.name = name;
         }
 
 

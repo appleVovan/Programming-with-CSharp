@@ -7,8 +7,11 @@ namespace AV.ProgrammingWithCSharp.Budgets
     {
         static void Main(string[] args)
         {
-            var budget = new Budget();
-            budget.AddTransaction(89.1);
+            var budget = new Budget("Vovan's car expenses");
+            budget.AddTransaction(27.3);
+            budget.AddTransaction(4.8);
+            budget.AddTransaction(384.486);
+            
 
             var transactions = new List<double> { 27.3, 4.8, 384.486 };            
             
