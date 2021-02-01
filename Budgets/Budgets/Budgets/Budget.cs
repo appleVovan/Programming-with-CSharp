@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AV.ProgrammingWithCSharp.Budgets
 {
@@ -17,6 +18,23 @@ namespace AV.ProgrammingWithCSharp.Budgets
         public void AddTransaction(double transaction)
         {
             transactions.Add(transaction);
+        }
+
+        public void ShowStatistics()
+        {           
+            var result = 0.0;
+            var highestTransaction = 0.0;
+            var lowestTransaction = 9999.99;
+
+            foreach (double transaction in transactions)
+            {
+                highestTransaction = Math.Max(transaction, highestTransaction);
+                lowestTransaction = Math.Min(transaction, lowestTransaction);
+                result += transaction;
+            }
+            result /= transactions.Count;
+            Console.WriteLine($"The average transaction is ${result:N2}");
+            Console.WriteLine($"The lowest transaction is ${lowestTransaction} and the highest is ${highestTransaction}.");
         }
     }
 }
