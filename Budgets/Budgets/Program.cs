@@ -11,7 +11,10 @@ namespace AV.ProgrammingWithCSharp.Budgets
             budget.AddTransaction(27.3);
             budget.AddTransaction(4.8);
             budget.AddTransaction(384.486);
-            budget.ShowStatistics();
+            var result = budget.GetStatistics();
+
+            Console.WriteLine($"The average transaction is ${result:N2}");
+            Console.WriteLine($"The lowest transaction is ${result.LowestTransaction} and the highest is ${result.HighestTransaction}.");
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AV.ProgrammingWithCSharp.Budgets
 {
-    class Budget
+    public class Budget
     {
         private List<double> transactions;
         private string name;
@@ -20,21 +20,19 @@ namespace AV.ProgrammingWithCSharp.Budgets
             transactions.Add(transaction);
         }
 
-        public void ShowStatistics()
+        public Statistics GetStatistics()
         {           
-            var result = 0.0;
-            var highestTransaction = 0.0;
-            var lowestTransaction = 9999.99;
+            var result = new Statistics();
+            result.LowestTransaction = 9999.99;
 
             foreach (double transaction in transactions)
             {
-                highestTransaction = Math.Max(transaction, highestTransaction);
-                lowestTransaction = Math.Min(transaction, lowestTransaction);
-                result += transaction;
+                result.HighestTransaction = Math.Max(transaction, result.HighestTransaction);
+                result.LowestTransaction = Math.Min(transaction, result.LowestTransaction);
+                result.AverageTransaction += transaction;
             }
-            result /= transactions.Count;
-            Console.WriteLine($"The average transaction is ${result:N2}");
-            Console.WriteLine($"The lowest transaction is ${lowestTransaction} and the highest is ${highestTransaction}.");
+            result.AverageTransaction /= transactions.Count;
+            return result;
         }
     }
 }

@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30709.132
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgets", "Budgets\Budgets.csproj", "{9984D85E-C554-4778-8782-512C88CAE739}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgets", "Budgets\Budgets.csproj", "{9984D85E-C554-4778-8782-512C88CAE739}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4D30C027-C116-4AC2-8AF1-CDE151E739F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budgets.Tests", "Tests\Budgets.Tests\Budgets.Tests.csproj", "{689D5A67-5BE6-4661-9193-529B438AB242}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{9984D85E-C554-4778-8782-512C88CAE739}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9984D85E-C554-4778-8782-512C88CAE739}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9984D85E-C554-4778-8782-512C88CAE739}.Release|Any CPU.Build.0 = Release|Any CPU
+		{689D5A67-5BE6-4661-9193-529B438AB242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{689D5A67-5BE6-4661-9193-529B438AB242}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{689D5A67-5BE6-4661-9193-529B438AB242}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{689D5A67-5BE6-4661-9193-529B438AB242}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{689D5A67-5BE6-4661-9193-529B438AB242} = {4D30C027-C116-4AC2-8AF1-CDE151E739F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E32D3C3-C6CB-4405-B0B7-6BE27F22283B}
