@@ -4,6 +4,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
 {
     public class Customer
     {
+        public static int InstanceCount { get; set; }
+
+
         private int _id;
         private string _lastName;
         private string _firstName;
@@ -24,8 +27,8 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
 
         public string FirstName
         {
-            get { return _lastName; }
-            set { _lastName = value; }
+            get { return _firstName; }
+            set { _firstName = value; }
         }     
 
         public string Email
@@ -38,7 +41,16 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         {
             get
             {
-                return LastName + "," + FirstName;
+                var result = LastName;
+                if (!String.IsNullOrWhiteSpace(FirstName))
+                {
+                    if (!String.IsNullOrWhiteSpace(LastName))
+                    {
+                        result += ", ";
+                    }
+                    result += FirstName;
+                }
+                return result;
             }
         }
 
