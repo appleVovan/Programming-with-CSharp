@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{FD16FA2E-7531-4D1D-9924-7F9A18DD4052}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5D441B52-67D3-4A5F-89DF-5F8B56F3DF88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayerTests", "Tests\BusinessLayerTests\BusinessLayerTests.csproj", "{FF542185-AD79-4908-BACB-2C29B3964F5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{FD16FA2E-7531-4D1D-9924-7F9A18DD4052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD16FA2E-7531-4D1D-9924-7F9A18DD4052}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD16FA2E-7531-4D1D-9924-7F9A18DD4052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF542185-AD79-4908-BACB-2C29B3964F5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF542185-AD79-4908-BACB-2C29B3964F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF542185-AD79-4908-BACB-2C29B3964F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF542185-AD79-4908-BACB-2C29B3964F5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FF542185-AD79-4908-BACB-2C29B3964F5B} = {5D441B52-67D3-4A5F-89DF-5F8B56F3DF88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4133EC6-65B9-4846-B3C2-24B9AF5DD6DE}
