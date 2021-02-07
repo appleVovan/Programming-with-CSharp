@@ -75,6 +75,36 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
             //Assert
             Assert.Equal(expected, actual);
         }
+
+
+        [Fact]
+        public void ValidateValid()
+        {
+            //Arrange
+            var customer = new Customer() { LastName = "Yablonskyi", Email = "yablonskyi.v.reg@gmail.com"};
+
+            var expected = true;
+
+            //Act
+            var actual = customer.Validate();
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
         
+        [Fact]
+        public void ValidateOnlyEmail()
+        {
+            //Arrange
+            var customer = new Customer() { Email = "yablonskyi.v.reg@gmail.com"};
+
+            var expected = false;
+
+            //Act
+            var actual = customer.Validate();
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
