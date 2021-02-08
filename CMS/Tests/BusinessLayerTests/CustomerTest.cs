@@ -106,5 +106,24 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
             //Assert
             Assert.Equal(expected, actual);
         }
+
+
+        [Fact]
+        public void ObjectEqualityTest()
+        {
+            //Arrange
+            var customer = new Customer { FirstName = "Volodymyr", LastName = "Yablonskyi" };
+            var customer1 = customer;
+            var customer2 = new Customer { FirstName = "Volodymyr", LastName = "Yablonskyi" };
+            //Act
+
+            //Assert
+            Assert.Equal(customer, customer1);
+            Assert.NotEqual(customer, customer2);
+            Assert.Equal(customer.Id, customer2.Id);
+            Assert.Equal(customer.FirstName, customer2.FirstName);
+            Assert.Equal(customer.LastName, customer2.LastName);
+            Assert.Equal(customer.Email, customer2.Email);
+        }
     }
 }

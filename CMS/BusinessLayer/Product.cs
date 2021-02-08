@@ -46,20 +46,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         }
 
 
-        public List<Product> Load()
-        {
-            return new List<Product>();
-        }
-        public Product Load(int id)
-        {
-            return new Product();
-        }
-
-        public bool Save()
-        {
-            return true;
-        }
-
         public bool Validate()
         {
             var result = true;

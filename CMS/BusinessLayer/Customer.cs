@@ -62,19 +62,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         }
 
 
-        public List<Customer> Load()
-        {
-            return new List<Customer>();
-        }
-        public Customer Load(int id)
-        {
-            return new Customer();
-        }
-
-        public bool Save()
-        {
-            return true;
-        }
+        
 
         public bool Validate()
         {
