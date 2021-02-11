@@ -1,4 +1,5 @@
 ﻿using AR.ProgrammingWithCSharp.CMS.DataAccessLayer;
+using System;
 using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
@@ -21,7 +22,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         {
             for (int i=0; i<_storage.Length; i++)
             {
-                if (order.Id == id)
+                if (int.Parse(_storage[i]["Id"]) == id)
                 {
                     var newOrder = CreateOrder(_storage[i]);
                     return newOrder;
@@ -32,17 +33,19 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         public bool Save(Order order)
         {
-            var newOrder = CreateClone(order);
-            _storage.Add(newOrder);
-            return true;
+            var result = _storage.AddRecord(
+                new KeyValuePair<string, string>("Id", order.Id.ToString()),
+                new KeyValuePair<string, string>("Date", order.Date.ToString())
+            );
+            return result;
         }
 
 
-        private Order CreateClone(Order order)
+        private Order CreateOrder(Record record)
         {
-            var newOrder = new Order(order.Id) 
+            var newOrder = new Order(int.Parse(record["Id"])) 
                 { 
-                    Date = order.Date
+                    Date = DateTime.Parse(record["Date"])
                 };
             return newOrder;
         }

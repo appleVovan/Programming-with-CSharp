@@ -21,7 +21,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         {
             for (int i=0; i<_storage.Length; i++)
             {
-                if (product.Id == id)
+                if (int.Parse(_storage[i]["Id"]) == id)
                 {
                     var newProduct = CreateProduct(_storage[i]);
                     return newProduct;
@@ -32,19 +32,23 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         public bool Save(Product product)
         {
-            var newProduct = CreateClone(product);
-            _storage.Add(newProduct);
-            return true;
+            var result = _storage.AddRecord(
+                new KeyValuePair<string, string>("Id", product.Id.ToString()),
+                new KeyValuePair<string, string>("Name", product.Name),
+                new KeyValuePair<string, string>("Description", product.Description),
+                new KeyValuePair<string, string>("Price", product.Price.ToString())
+            );
+            return result;
         }
 
 
-        private Product CreateClone(Product product)
+        private Product CreateProduct(Record record)
         {
-            var newProduct = new Product(product.Id) 
+            var newProduct = new Product(int.Parse(record["Id"])) 
                 { 
-                    Name = product.Name, 
-                    Description = product.Description, 
-                    Price = product.Price
+                    Name = record["Name"], 
+                    Description = record["Description"], 
+                    Price = double.Parse(record["Price"])
                 };
             return newProduct;
         }
