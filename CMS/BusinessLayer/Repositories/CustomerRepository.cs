@@ -1,28 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using AR.ProgrammingWithCSharp.CMS.DataAccessLayer;
+using System;
+using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 {
     public class CustomerRepository
     {
-        private List<Customer> _storage = new List<Customer>();
+        private InMemoryStorage _storage = new InMemoryStorage();
 
         public List<Customer> Load()
         {
             var result = new List<Customer>();
-            foreach (var customer in _storage)
+            for (int i=0; i<_storage.Length; i++)
             {
-                var newCustomer = CreateClone(customer);
+                var newCustomer = CreateCustomer(_storage[i]);
                 result.Add(newCustomer);
             }
             return result;
         }
         public Customer Load(int id)
         {
-            foreach (var customer in _storage)
+            for (int i=0; i<_storage.Length; i++)
             {
-                if (customer.Id == id)
+                if (int.Parse(_storage[i]["Id"]) == id)
                 {
-                    var newCustomer = CreateClone(customer);
+                    var newCustomer = CreateCustomer(_storage[i]);
                     return newCustomer;
                 }
             }
@@ -31,19 +33,23 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         public bool Save(Customer customer)
         {
-            var newCustomer = CreateClone(customer);
-            _storage.Add(newCustomer);
-            return true;
+            var result = _storage.AddRecord(
+                new KeyValuePair<string, string>("Id", customer.Id.ToString()),
+                new KeyValuePair<string, string>("FirstName", customer.FirstName),
+                new KeyValuePair<string, string>("LastName", customer.LastName),
+                new KeyValuePair<string, string>("Email", customer.Email)
+            );
+            return result;
         }
 
 
-        private Customer CreateClone(Customer customer)
+        private Customer CreateCustomer(Record record)
         {
-            var newCustomer = new Customer(customer.Id) 
+            var newCustomer = new Customer(int.Parse(record["Id"])) 
                 { 
-                    LastName = customer.LastName, 
-                    FirstName = customer.FirstName, 
-                    Email = customer.Email 
+                    LastName = record["LastName"], 
+                    FirstName = record["FirstName"], 
+                    Email = record["Email"] 
                 };
             return newCustomer;
         }

@@ -1,28 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using AR.ProgrammingWithCSharp.CMS.DataAccessLayer;
+using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 {
     public class ProductRepository
     {
-        private List<Product> _storage = new List<Product>();
+        private InMemoryStorage _storage = new InMemoryStorage();
 
         public List<Product> Load()
         {
             var result = new List<Product>();
-            foreach (var product in _storage)
+            for (int i=0; i<_storage.Length; i++)
             {
-                var newProduct = CreateClone(product);
+                var newProduct = CreateProduct(_storage[i]);
                 result.Add(newProduct);
             }
             return result;
         }
         public Product Load(int id)
         {
-            foreach (var product in _storage)
+            for (int i=0; i<_storage.Length; i++)
             {
                 if (product.Id == id)
                 {
-                    var newProduct = CreateClone(product);
+                    var newProduct = CreateProduct(_storage[i]);
                     return newProduct;
                 }
             }

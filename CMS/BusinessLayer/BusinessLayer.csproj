@@ -6,4 +6,8 @@
     <RootNamespace>AR.ProgrammingWithCSharp.CMS.BusinessLayer</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+  </ItemGroup>
+
 </Project>
