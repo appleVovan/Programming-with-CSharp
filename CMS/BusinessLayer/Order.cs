@@ -10,8 +10,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         
         private int _id;
         private DateTime? _date;
+        private List<OrderItem> _items;
 
-
+        
         public int Id
         {
             get { return _id; }
@@ -22,13 +23,19 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
             get { return _date; }
             set { _date = value; }
         }
+        public List<OrderItem> Items
+        {
+            get { return _items; }
+            set { _items = value; }
+        }
+
         
 
         public Order()
         {
-
+            _items = new List<OrderItem>();
         }
-        public Order(int id)
+        public Order(int id) : this()
         {
             _id = id;
         }

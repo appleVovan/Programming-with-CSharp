@@ -12,6 +12,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         private string _lastName;
         private string _firstName;
         private string _email;
+        private List<Address> _addresses;
 
 
         public int Id
@@ -48,6 +49,17 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
                     result += FirstName;
                 }
                 return result;
+            }
+        }        
+        public List<Address> Addresses 
+        { 
+            get 
+            { 
+                return _addresses;
+            }
+            set
+            { 
+                _addresses = value; 
             }
         }
 

@@ -12,7 +12,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         private int _productId;
         private double? _purchasePrice;
         private int _quantity;
-
+        private int _orderId;
 
         public int Id
         {
@@ -34,13 +34,18 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
             get { return _quantity; }
             set { _quantity = value; }
         }
+        public int OrderId
+        {
+            get { return _orderId; }
+            private set { _orderId = value; }
+        }
         
 
-        public OrderItem()
+        public OrderItem(int orderId)
         {
-
+            _orderId = orderId;
         }
-        public OrderItem(int id)
+        public OrderItem(int id, int orderId) : this(orderId)
         {
             _id = id;
         }
