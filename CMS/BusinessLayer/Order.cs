@@ -6,13 +6,14 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
     public class Order
     {
         public static int InstanceCount { get; set; }
-
         
         private int _id;
         private DateTime? _date;
         private List<OrderItem> _items;
+        private Address _address;
+        private int _customerId;
 
-        
+
         public int Id
         {
             get { return _id; }
@@ -28,7 +29,16 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
             get { return _items; }
             set { _items = value; }
         }
-
+        public Address Address
+        {
+            get { return _address; }
+            set { _address = value; }
+        }
+        public int CustomerId
+        {
+            get { return _customerId; }
+            set { _customerId = value; }
+        }
         
 
         public Order()
@@ -46,6 +56,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
             var result = true;
 
             if (Date == null)
+                result = false;
+            if (Items == null || Items.Count == 0)
+                result = false;
+            if (Address == null)
+                result = false;
+            if (CustomerId <= 0)
                 result = false;
 
             return result;

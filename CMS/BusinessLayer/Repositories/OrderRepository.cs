@@ -9,6 +9,19 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         private InMemoryStorage _storage = new InMemoryStorage();
         private InMemoryStorage _itemStorage = new InMemoryStorage();
 
+        private AddressRepository _addressRepository;
+
+
+        public OrderRepository()
+        {
+            _addressRepository = new AddressRepository();
+        }
+        public OrderRepository(AddressRepository addressRepository)
+        {
+            _addressRepository = addressRepository;
+        }
+
+
         public List<Order> Load()
         {
             var result = new List<Order>();
@@ -52,6 +65,8 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         {
             var result = _storage.AddRecord(
                 new KeyValuePair<string, string>("Id", order.Id.ToString()),
+                new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
+                new KeyValuePair<string, string>("AddressId", order.Address?.Id.ToString()),
                 new KeyValuePair<string, string>("Date", order.Date.ToString())
             );
             SaveItems(order.Items);
@@ -71,14 +86,15 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                     );
             }
         }      
-
         
         private Order CreateOrder(Record record)
         {
             var newOrder = new Order(int.Parse(record["Id"])) 
                 { 
-                    Date = DateTime.Parse(record["Date"])
-                };
+                    Date = DateTime.Parse(record["Date"]),
+                    CustomerId = int.Parse(record["CustomerId"])
+                };        
+            newOrder.Address = _addressRepository.Load(int.Parse(record["AddressId"]));
             return newOrder;
         }        
 

@@ -7,6 +7,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
     {
         private InMemoryStorage _storage = new InMemoryStorage();
 
+
         public List<Address> Load()
         {
             var result = new List<Address>();
@@ -58,7 +59,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             );
             return result;
         }
-
 
         private Address CreateAddress(Record record)
         {

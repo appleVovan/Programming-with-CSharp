@@ -6,7 +6,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
     public class Product
     {
         public static int InstanceCount { get; set; }
-
         
         private int _id;
         private string _name;

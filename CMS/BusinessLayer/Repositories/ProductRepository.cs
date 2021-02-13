@@ -7,6 +7,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
     {
         private InMemoryStorage _storage = new InMemoryStorage();
 
+
         public List<Product> Load()
         {
             var result = new List<Product>();
@@ -40,7 +41,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             );
             return result;
         }
-
 
         private Product CreateProduct(Record record)
         {

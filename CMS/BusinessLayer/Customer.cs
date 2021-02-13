@@ -7,7 +7,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
     {
         public static int InstanceCount { get; set; }
 
-
         private int _id;
         private string _lastName;
         private string _firstName;
@@ -66,14 +65,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
 
         public Customer()
         {
-
+            _addresses = new List<Address>();
         }
-        public Customer(int id)
+        public Customer(int id) : this()
         {
             _id = id;
         }
-
-
         
 
         public bool Validate()

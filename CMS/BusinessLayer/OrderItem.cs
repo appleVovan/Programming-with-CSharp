@@ -6,13 +6,13 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
     public class OrderItem
     {
         public static int InstanceCount { get; set; }
-
         
         private int _id;
         private int _productId;
         private double? _purchasePrice;
         private int _quantity;
         private int _orderId;
+
 
         public int Id
         {
@@ -50,21 +50,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
             _id = id;
         }
 
-
-        public List<OrderItem> Load()
-        {
-            return new List<OrderItem>();
-        }
-        public Order Load(int id)
-        {
-            return new Order();
-        }
-
-        public bool Save()
-        {
-            return true;
-        }
-
+        
         public bool Validate()
         {
             var result = true;

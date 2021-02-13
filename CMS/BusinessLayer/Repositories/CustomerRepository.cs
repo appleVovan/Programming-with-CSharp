@@ -22,7 +22,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         }
 
 
-
         public List<Customer> Load()
         {
             var result = new List<Customer>();
@@ -55,7 +54,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             {
                 if (int.Parse(_customerToAddressStorage[i]["CustomerId"]) == customerId)
                 {
-                    addressIds.Add(int.Parse(_customerToAddressStorage[i]["CustomerId"]));
+                    addressIds.Add(int.Parse(_customerToAddressStorage[i]["AddressId"]));
                 }                
             }
             return _addressRepository.Load(addressIds);
@@ -78,7 +77,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             }
             return result;
         }
-
 
         private Customer CreateCustomer(Record record)
         {

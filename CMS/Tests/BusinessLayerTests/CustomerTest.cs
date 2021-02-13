@@ -1,5 +1,4 @@
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer;
-using System;
 using Xunit;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
@@ -81,30 +80,52 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateValid()
         {
             //Arrange
-            var customer = new Customer() { LastName = "Yablonskyi", Email = "yablonskyi.v.reg@gmail.com"};
-
-            var expected = true;
+            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yablonskyi.v.reg@gmail.com"};
 
             //Act
             var actual = customer.Validate();
 
             //Assert
-            Assert.Equal(expected, actual);
+            Assert.True(actual);
         }
         
         [Fact]
-        public void ValidateOnlyEmail()
+        public void ValidateNoName()
         {
             //Arrange
-            var customer = new Customer() { Email = "yablonskyi.v.reg@gmail.com"};
-
-            var expected = false;
+            var customer = new Customer(1) { Email = "yablonskyi.v.reg@gmail.com"};
 
             //Act
             var actual = customer.Validate();
 
             //Assert
-            Assert.Equal(expected, actual);
+            Assert.False(actual);
+        }
+
+        [Fact]
+        public void ValidateNoEmail()
+        {
+            //Arrange
+            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi" };
+
+            //Act
+            var actual = customer.Validate();
+
+            //Assert
+            Assert.False(actual);
+        }
+
+        [Fact]
+        public void ValidateEmptyCustomer()
+        {
+            //Arrange
+            var customer = new Customer(1);
+
+            //Act
+            var actual = customer.Validate();
+
+            //Assert
+            Assert.False(actual);
         }
 
 

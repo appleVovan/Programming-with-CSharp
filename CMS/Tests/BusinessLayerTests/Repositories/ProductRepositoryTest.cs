@@ -10,9 +10,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         public void SaveValidTest()
         {
             //Arrange
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             var productRepository = new ProductRepository();
-
+            
+            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            
             //Act
             var result = productRepository.Save(product);
 
@@ -24,12 +25,17 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         public void LoadValidTest()
         {
             //Arrange
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             var productRepository = new ProductRepository();
+
+            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            var product2 = new Product(2) { Name = "Balthazar Vinyl", Description = "Thin Walls", Price = 60.0 };
+            
             productRepository.Save(product);
+            productRepository.Save(product2);
 
             //Act
             var result = productRepository.Load(1);
+            var result2 = productRepository.Load(2);
 
             //Assert            
             Assert.NotEqual(product, result);
@@ -37,14 +43,22 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             Assert.Equal(product.Name, result.Name);
             Assert.Equal(product.Description, result.Description);
             Assert.Equal(product.Price, result.Price);
+
+            Assert.NotEqual(product2, result2);
+            Assert.Equal(product2.Id, result2.Id);
+            Assert.Equal(product2.Name, result2.Name);
+            Assert.Equal(product2.Description, result2.Description);
+            Assert.Equal(product2.Price, result2.Price);
         }
 
         [Fact]
         public void LoadInvalidTest()
         {
             //Arrange
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             var productRepository = new ProductRepository();
+
+            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            
             productRepository.Save(product);
 
             //Act
