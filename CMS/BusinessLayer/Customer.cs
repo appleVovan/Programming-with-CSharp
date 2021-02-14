@@ -12,6 +12,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         private string _firstName;
         private string _email;
         private List<Address> _addresses;
+        private int _type;
 
 
         public int Id
@@ -60,6 +61,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
             { 
                 _addresses = value; 
             }
+        }
+        public int Type
+        {
+            get { return _type; }
+            set { _type = value; }
         }
 
 
