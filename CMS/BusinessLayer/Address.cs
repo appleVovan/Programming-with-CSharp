@@ -83,5 +83,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
 
             return result;
         }
+
+        public override string ToString()
+        {
+            return $"{StreetLine1}, {City}, {State}, {Country}";
+        }
     }
 }

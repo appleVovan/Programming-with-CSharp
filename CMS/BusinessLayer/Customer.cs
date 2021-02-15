@@ -90,5 +90,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
 
             return result;
         }
+
+        public override string ToString()
+        {
+            return FullName;
+        }
     }
 }
