@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.DataAccessLayer
 {
@@ -31,6 +32,34 @@ namespace AR.ProgrammingWithCSharp.CMS.DataAccessLayer
             _records.Add(new Record(data));
             return true;
         }
+
+        public bool UpdateRecord(string id, params KeyValuePair<string, string>[] data)
+        {
+            var result = false;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_records[i]["Id"] == id)
+                {
+                    _records[i].Update(data);  
+                    return true;
+                }
+            }
+            return result;
+        }
+
+        public void RemoveAllMatchingRecords(string key, string value)
+        {
+            int i=0;
+            while (i < Length)
+            {
+                if (_records[i][key] == value)
+                {
+                    _records.Remove(_records[i]);
+                    i--;
+                }
+                i++;
+            }
+        }
     }
 
     public class Record
@@ -59,6 +88,21 @@ namespace AR.ProgrammingWithCSharp.CMS.DataAccessLayer
                 if (!_data.ContainsKey(keyValue.Key))
                 {
                     _data.Add(keyValue.Key, keyValue.Value);
+                }
+            }
+        }
+
+        internal void Update(KeyValuePair<string, string>[] data)
+        {
+            foreach (var keyValue in data)
+            {
+                if (!_data.ContainsKey(keyValue.Key))
+                {
+                    _data.Add(keyValue.Key, keyValue.Value);
+                }
+                else
+                {
+                    _data[keyValue.Key] = keyValue.Value;
                 }
             }
         }

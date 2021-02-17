@@ -1,4 +1,4 @@
-using AR.ProgrammingWithCSharp.CMS.BusinessLayer;
+using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using Xunit;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
@@ -51,36 +51,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         }
 
         [Fact]
-        public void StaticTest()
-        {
-            //Arrange
-            var customer = new Customer();
-            customer.LastName = "Yablonskyi";
-            Customer.InstanceCount += 1;
-
-            var customer1 = new Customer();
-            customer1.LastName = "Apple";
-            Customer.InstanceCount += 1;
-
-            var customer2 = new Customer();
-            customer1.LastName = "Mohylnyi";
-            Customer.InstanceCount += 1;
-
-            var expected = 3;
-
-            //Act
-            var actual = Customer.InstanceCount;
-
-            //Assert
-            Assert.Equal(expected, actual);
-        }
-
-
-        [Fact]
         public void ValidateValid()
         {
             //Arrange
-            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yablonskyi.v.reg@gmail.com"};
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yablonskyi.v.reg@gmail.com"};
 
             //Act
             var actual = customer.Validate();
@@ -93,7 +67,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateNoName()
         {
             //Arrange
-            var customer = new Customer(1) { Email = "yablonskyi.v.reg@gmail.com"};
+            var customer = new Customer() { Email = "yablonskyi.v.reg@gmail.com"};
 
             //Act
             var actual = customer.Validate();
@@ -106,7 +80,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateNoEmail()
         {
             //Arrange
-            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi" };
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi" };
 
             //Act
             var actual = customer.Validate();
@@ -119,7 +93,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateEmptyCustomer()
         {
             //Arrange
-            var customer = new Customer(1);
+            var customer = new Customer();
 
             //Act
             var actual = customer.Validate();
@@ -128,23 +102,19 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
             Assert.False(actual);
         }
 
-
         [Fact]
-        public void ObjectEqualityTest()
+        public void CustomerCounterTest()
         {
             //Arrange
-            var customer = new Customer { FirstName = "Volodymyr", LastName = "Yablonskyi" };
-            var customer1 = customer;
-            var customer2 = new Customer { FirstName = "Volodymyr", LastName = "Yablonskyi" };
-            //Act
+            var customer = new Customer();
+            var customer1 = new Customer();
+            var customer2 = new Customer();
+
+            //Act            
 
             //Assert
-            Assert.Equal(customer, customer1);
-            Assert.NotEqual(customer, customer2);
-            Assert.Equal(customer.Id, customer2.Id);
-            Assert.Equal(customer.FirstName, customer2.FirstName);
-            Assert.Equal(customer.LastName, customer2.LastName);
-            Assert.Equal(customer.Email, customer2.Email);
+            Assert.Equal(customer1.Id, customer.Id + 1);
+            Assert.Equal(customer2.Id, customer1.Id + 1);
         }
     }
 }

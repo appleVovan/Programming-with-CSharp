@@ -1,4 +1,4 @@
-﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer;
+﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
 using Xunit;
 
@@ -12,13 +12,43 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             //Arrange
             var customerRepository = new CustomerRepository();
             
-            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
             
             //Act
             var result = customerRepository.Save(customer);
 
             //Assert            
             Assert.True(result);
+        }
+
+        [Fact]
+        public void SaveInValidTest()
+        {
+            //Arrange
+            var customerRepository = new CustomerRepository();
+            
+            var customer = new Customer() { FirstName = "Volodymyr", Email = "yvr@gmail.com" };
+            
+            //Act
+            var result = customerRepository.Save(customer);
+
+            //Assert            
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void SaveNoChangesTest()
+        {
+            //Arrange
+            var customerRepository = new CustomerRepository();
+            
+            var customer = new Customer();
+            
+            //Act
+            var result = customerRepository.Save(customer);
+
+            //Assert            
+            Assert.False(result);
         }
 
         [Fact]
@@ -28,10 +58,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             var addressRepository = new AddressRepository();
             var customerRepository = new CustomerRepository(addressRepository);
 
-            var address = new Address(1) { StreetLine1 = "Awesome 5 street", City = "Awesome Town", State = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
 
-            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
             customer.Addresses.Add(address);
             
 
@@ -43,21 +73,84 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         }
 
         [Fact]
+        public void SaveLoadTwiceWithChangesTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            var customerRepository = new CustomerRepository(addressRepository);
+
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            addressRepository.Save(address);
+
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
+            customer.Addresses.Add(address);
+            customerRepository.Save(customer);
+            var loadedCustomer = customerRepository.Load(customer.Id);
+            loadedCustomer.LastName = "Apple";
+            
+            //Act
+            var saveResult = customerRepository.Save(loadedCustomer);
+            var result = customerRepository.Load(loadedCustomer.Id);
+
+            //Assert            
+            Assert.True(saveResult);
+            Assert.NotEqual(customer, loadedCustomer);
+            Assert.NotEqual(loadedCustomer, result);
+            Assert.NotEqual(customer, result);
+            Assert.Equal(customer.Id, loadedCustomer.Id);
+            Assert.Equal(customer.Id, result.Id);
+            Assert.NotEqual(customer.LastName, loadedCustomer.LastName);
+            Assert.Equal(loadedCustomer.LastName, result.LastName);
+            Assert.Equal(loadedCustomer.Addresses[0].Id, result.Addresses[0].Id);
+        }
+
+        [Fact]
+        public void SaveLoadTwiceNoChangesTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            var customerRepository = new CustomerRepository(addressRepository);
+
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            addressRepository.Save(address);
+
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
+            customer.Addresses.Add(address);
+            customerRepository.Save(customer);
+            var loadedCustomer = customerRepository.Load(customer.Id);
+            
+            //Act
+            var saveResult = customerRepository.Save(loadedCustomer);
+            var result = customerRepository.Load(loadedCustomer.Id);
+
+            //Assert            
+            Assert.False(saveResult);
+            Assert.NotEqual(customer, loadedCustomer);
+            Assert.NotEqual(loadedCustomer, result);
+            Assert.NotEqual(customer, result);
+            Assert.Equal(customer.Id, loadedCustomer.Id);
+            Assert.Equal(customer.Id, result.Id);
+            Assert.Equal(customer.LastName, loadedCustomer.LastName);
+            Assert.Equal(loadedCustomer.LastName, result.LastName);
+            Assert.Equal(loadedCustomer.Addresses[0].Id, result.Addresses[0].Id);
+        }
+
+        [Fact]
         public void LoadValidTest()
         {
             //Arrange
             var addressRepository = new AddressRepository();
             var customerRepository = new CustomerRepository(addressRepository);
 
-            var address = new Address(1) { StreetLine1 = "Awesome 5 street", City = "Awesome Town", State = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
-            var address2 = new Address(2) { StreetLine1 = "Perfect 6 street", City = "Perfect Town", State = "PS", Country = "Perfactionland", Code = "32592", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address2 = new Address() { StreetLine1 = "Perfect 6 street", City = "Perfect Town", StateOrRegion = "PS", Country = "Perfactionland", Code = "32592", Type = 1 };
             addressRepository.Save(address);
             addressRepository.Save(address2);
 
-            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
             customer.Addresses.Add(address);
 
-            var customer2 = new Customer(2) { FirstName = "Mike", LastName = "Tay", Email = "mt@gmail.com" };
+            var customer2 = new Customer() { FirstName = "Mike", LastName = "Tay", Email = "mt@gmail.com" };
             customer2.Addresses.Add(address);
             customer2.Addresses.Add(address2);
 
@@ -65,8 +158,8 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             customerRepository.Save(customer2);
 
             //Act
-            var result = customerRepository.Load(1);
-            var result2 = customerRepository.Load(2);
+            var result = customerRepository.Load(customer.Id);
+            var result2 = customerRepository.Load(customer2.Id);
 
             //Assert            
             Assert.NotEqual(customer, result);
@@ -108,12 +201,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             //Arrange
             var customerRepository = new CustomerRepository();
             
-            var customer = new Customer(1) { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
             
             customerRepository.Save(customer);
 
             //Act
-            var result = customerRepository.Load(2);
+            var result = customerRepository.Load(0);
 
             //Assert            
             Assert.NotEqual(customer, result);

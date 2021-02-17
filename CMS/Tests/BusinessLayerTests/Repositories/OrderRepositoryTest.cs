@@ -1,4 +1,4 @@
-﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer;
+﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
 using System;
 using Xunit;
@@ -13,10 +13,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             //Arrange
             var orderRepository = new OrderRepository();
 
-            var address = new Address(1) { StreetLine1 = "Awesome 5 street", City = "Awesome Town", State = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order(1) { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(1, 1) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
+            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
             
             order.Items.Add(orderItem);            
 
@@ -28,31 +28,140 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         }
 
         [Fact]
+        public void SaveInValidTest()
+        {
+            //Arrange
+            var orderRepository = new OrderRepository();
+
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), Address = address };
+            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            
+            order.Items.Add(orderItem);            
+
+            //Act
+            var result = orderRepository.Save(order);
+
+            //Assert            
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void SaveNoChangesTest()
+        {
+            //Arrange
+            var orderRepository = new OrderRepository();
+
+            var order = new Order();
+            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            
+            order.Items.Add(orderItem);            
+
+            //Act
+            var result = orderRepository.Save(order);
+
+            //Assert            
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void SaveLoadTwiceWithChangesTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            var orderRepository = new OrderRepository(addressRepository);
+
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            addressRepository.Save(address);
+
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
+            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            order.Items.Add(orderItem);            
+            
+            orderRepository.Save(order);
+            var loadedOrder = orderRepository.Load(order.Id);
+            loadedOrder.CustomerId = 2;
+            loadedOrder.Items[0].Quantity = 2;
+            
+            //Act
+            var saveResult = orderRepository.Save(loadedOrder);
+            var result = orderRepository.Load(loadedOrder.Id);
+
+            //Assert            
+            Assert.True(saveResult);
+            Assert.NotEqual(order, loadedOrder);
+            Assert.NotEqual(loadedOrder, result);
+            Assert.NotEqual(order, result);
+            Assert.Equal(order.Id, loadedOrder.Id);
+            Assert.Equal(order.Id, result.Id);
+            Assert.NotEqual(order.CustomerId, loadedOrder.CustomerId);
+            Assert.Equal(loadedOrder.CustomerId, result.CustomerId);
+            Assert.NotEqual(order.Items[0].Quantity, loadedOrder.Items[0].Quantity);
+            Assert.Equal(loadedOrder.Items[0].Quantity, result.Items[0].Quantity);
+        }
+
+        [Fact]
+        public void SaveLoadTwiceNoChangesTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            var orderRepository = new OrderRepository(addressRepository);
+
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            addressRepository.Save(address);
+
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
+            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            order.Items.Add(orderItem);            
+            
+            orderRepository.Save(order);
+            var loadedOrder = orderRepository.Load(order.Id);
+            
+            //Act
+            var saveResult = orderRepository.Save(loadedOrder);
+            var result = orderRepository.Load(loadedOrder.Id);
+
+            //Assert            
+            Assert.False(saveResult);
+            Assert.NotEqual(order, loadedOrder);
+            Assert.NotEqual(loadedOrder, result);
+            Assert.NotEqual(order, result);
+            Assert.Equal(order.Id, loadedOrder.Id);
+            Assert.Equal(order.Id, result.Id);
+            Assert.Equal(order.CustomerId, loadedOrder.CustomerId);
+            Assert.Equal(loadedOrder.CustomerId, result.CustomerId);
+            Assert.Equal(order.Items[0].Quantity, loadedOrder.Items[0].Quantity);
+            Assert.Equal(loadedOrder.Items[0].Quantity, result.Items[0].Quantity);
+        }
+
+
+        [Fact]
         public void LoadValidTest()
         {
             //Arrange
             var addressRepository = new AddressRepository();
-            var address = new Address(1) { StreetLine1 = "Awesome 5 street", City = "Awesome Town", State = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
-            var address2 = new Address(2) { StreetLine1 = "Perfect 6 street", City = "Perfect Town", State = "PS", Country = "Perfactionland", Code = "32592", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address2 = new Address() { StreetLine1 = "Perfect 6 street", City = "Perfect Town", StateOrRegion = "PS", Country = "Perfactionland", Code = "32592", Type = 1 };
             addressRepository.Save(address);
             addressRepository.Save(address2);
 
             var orderRepository = new OrderRepository(addressRepository);
 
-            var order = new Order(1) { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(1, order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
+            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
-            var order2 = new Order(2) { Date = new DateTime(2021, 01, 14, 16, 0, 0), CustomerId = 2, Address = address2 };
-            var orderItem2 = new OrderItem(2, order2.Id) { ProductId = 2, PurchasePrice = 20.00, Quantity = 1 };
+            var order2 = new Order() { Date = new DateTime(2021, 01, 14, 16, 0, 0), CustomerId = 2, Address = address2 };
+            var orderItem2 = new OrderItem(order2.Id) { ProductId = 2, PurchasePrice = 20.00, Quantity = 1 };
             order2.Items.Add(orderItem2);
 
             orderRepository.Save(order);
             orderRepository.Save(order2);
 
             //Act
-            var result = orderRepository.Load(1);
-            var result2 = orderRepository.Load(2);
+            var result = orderRepository.Load(order.Id);
+            var result2 = orderRepository.Load(order2.Id);
 
             //Assert            
             Assert.NotEqual(order, result);
@@ -86,12 +195,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         public void LoadInvalidTest()
         {
             //Arrange
-            var order = new Order(1) { Date = new DateTime(2021, 01, 14, 15, 0, 0) };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0) };
             var orderRepository = new OrderRepository();
             orderRepository.Save(order);
 
             //Act
-            var result = orderRepository.Load(2);
+            var result = orderRepository.Load(0);
 
             //Assert            
             Assert.NotEqual(order, result);

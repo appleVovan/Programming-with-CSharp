@@ -1,4 +1,4 @@
-using AR.ProgrammingWithCSharp.CMS.BusinessLayer;
+using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using Xunit;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
@@ -9,7 +9,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateValid()
         {
             //Arrange
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
 
             //Act
             var actual = product.Validate();
@@ -22,7 +22,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateNoName()
         {
             //Arrange
-            var product = new Product(1) { Description = "Trench", Price = 50.0 };
+            var product = new Product() { Description = "Trench", Price = 50.0 };
 
             //Act
             var actual = product.Validate();
@@ -35,7 +35,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateNoPrice()
         {
             //Arrange
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench" };
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench" };
 
             //Act
             var actual = product.Validate();
@@ -48,13 +48,28 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateEmptyProduct()
         {
             //Arrange
-            var product = new Product(1);
+            var product = new Product();
 
             //Act
             var actual = product.Validate();
 
             //Assert
             Assert.False(actual);
+        }
+
+        [Fact]
+        public void ProductCounterTest()
+        {
+            //Arrange
+            var product = new Product();
+            var product1 = new Product();
+            var product2 = new Product();
+
+            //Act            
+
+            //Assert
+            Assert.Equal(product1.Id, product.Id + 1);
+            Assert.Equal(product2.Id, product1.Id + 1);
         }
     }
 }

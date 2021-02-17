@@ -1,4 +1,5 @@
-﻿using AR.ProgrammingWithCSharp.CMS.DataAccessLayer;
+﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
+using AR.ProgrammingWithCSharp.CMS.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 
@@ -28,7 +29,6 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             for (int i=0; i<_storage.Length; i++)
             {
                 var newOrder = CreateOrder(_storage[i]);
-                newOrder.Items = LoadItems(newOrder.Id);
                 result.Add(newOrder);
             }
             return result;
@@ -40,13 +40,87 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                 if (int.Parse(_storage[i]["Id"]) == id)
                 {
                     var newOrder = CreateOrder(_storage[i]);
-                    newOrder.Items = LoadItems(newOrder.Id);
                     return newOrder;
                 }
             }
             return null;
         }
 
+
+        public bool Save(Order order)
+        {
+            var result = true;
+            if (order.HasChanges)
+            {
+                if (order.IsValid)
+                {
+                    if (order.IsNew)
+                    {
+                        result = _storage.AddRecord(
+                            new KeyValuePair<string, string>("Id", order.Id.ToString()),
+                            new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
+                            new KeyValuePair<string, string>("AddressId", order.Address?.Id.ToString()),
+                            new KeyValuePair<string, string>("Date", order.Date.ToString()));
+                    }
+                    else
+                    {
+                        result = _storage.UpdateRecord(order.Id.ToString(),
+                            new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
+                            new KeyValuePair<string, string>("AddressId", order.Address?.Id.ToString()),
+                            new KeyValuePair<string, string>("Date", order.Date.ToString()));
+                    }
+                    SaveItems(order.Items);
+                }
+                else
+                {
+                    result = false;
+                }
+            }
+            else
+            {
+                result = false;
+            }
+            return result;            
+        }
+
+        private void SaveItems(List<OrderItem> items)
+        {
+            foreach (var item in items)
+            {
+                if (item.HasChanges)
+                {
+                    if (item.IsValid)
+                    {
+                        if (item.IsNew)
+                        {
+                            _itemStorage.AddRecord(
+                                new KeyValuePair<string, string>("Id", item.Id.ToString()),
+                                new KeyValuePair<string, string>("OrderId", item.OrderId.ToString()),
+                                new KeyValuePair<string, string>("ProductId", item.ProductId.ToString()),
+                                new KeyValuePair<string, string>("PurchasePrice", item.PurchasePrice.ToString()),
+                                new KeyValuePair<string, string>("Quantity", item.Quantity.ToString()));
+                        }
+                        else
+                        {
+                            _itemStorage.UpdateRecord(item.Id.ToString(),
+                                new KeyValuePair<string, string>("OrderId", item.OrderId.ToString()),
+                                new KeyValuePair<string, string>("ProductId", item.ProductId.ToString()),
+                                new KeyValuePair<string, string>("PurchasePrice", item.PurchasePrice.ToString()),
+                                new KeyValuePair<string, string>("Quantity", item.Quantity.ToString()));
+                        }
+                    }
+                }
+            }
+        }      
+        
+        private Order CreateOrder(Record record)
+        {
+            int id = int.Parse(record["Id"]);
+            var items = LoadItems(id);
+            var address = _addressRepository.Load(int.Parse(record["AddressId"]));
+            var newOrder = new Order(id, DateTime.Parse(record["Date"]), items, address, int.Parse(record["CustomerId"]));        
+            return newOrder;
+        }    
         private List<OrderItem> LoadItems(int orderId)
         {
             var result = new List<OrderItem>();
@@ -61,52 +135,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             return result;
         }
 
-        public bool Save(Order order)
-        {
-            var result = _storage.AddRecord(
-                new KeyValuePair<string, string>("Id", order.Id.ToString()),
-                new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
-                new KeyValuePair<string, string>("AddressId", order.Address?.Id.ToString()),
-                new KeyValuePair<string, string>("Date", order.Date.ToString())
-            );
-            SaveItems(order.Items);
-            return result;
-        }
-
-        private void SaveItems(List<OrderItem> items)
-        {
-            foreach (var item in items)
-            {
-                _itemStorage.AddRecord(
-                        new KeyValuePair<string, string>("Id", item.Id.ToString()),
-                        new KeyValuePair<string, string>("OrderId", item.OrderId.ToString()),
-                        new KeyValuePair<string, string>("ProductId", item.ProductId.ToString()),
-                        new KeyValuePair<string, string>("PurchasePrice", item.PurchasePrice.ToString()),
-                        new KeyValuePair<string, string>("Quantity", item.Quantity.ToString())
-                    );
-            }
-        }      
-        
-        private Order CreateOrder(Record record)
-        {
-            var newOrder = new Order(int.Parse(record["Id"])) 
-                { 
-                    Date = DateTime.Parse(record["Date"]),
-                    CustomerId = int.Parse(record["CustomerId"])
-                };        
-            newOrder.Address = _addressRepository.Load(int.Parse(record["AddressId"]));
-            return newOrder;
-        }        
-
         private OrderItem CreateItem(Record record)
         {
-            var newOrder = new OrderItem(int.Parse(record["Id"]), int.Parse(record["OrderId"])) 
-                { 
-                    ProductId = int.Parse(record["ProductId"]),
-                    PurchasePrice = double.Parse(record["PurchasePrice"]),
-                    Quantity = int.Parse(record["Quantity"]),
-                };
+            var newOrder = new OrderItem(int.Parse(record["Id"]), int.Parse(record["OrderId"]), int.Parse(record["ProductId"]), double.Parse(record["PurchasePrice"]), int.Parse(record["Quantity"]));
             return newOrder;
         }
+        
     }
 }

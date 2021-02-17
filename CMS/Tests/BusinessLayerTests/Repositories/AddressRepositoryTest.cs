@@ -1,4 +1,4 @@
-﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer;
+﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
 using Xunit;
 
@@ -12,7 +12,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             //Arrange
             var addressRepository = new AddressRepository();
             
-            var address = new Address(1) { StreetLine1 = "Awesome 5 street", City = "Awesome Town", State = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             
             //Act
             var result = addressRepository.Save(address);
@@ -22,20 +22,102 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         }
 
         [Fact]
+        public void SaveInValidTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            
+            var address = new Address() { City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            
+            //Act
+            var result = addressRepository.Save(address);
+
+            //Assert            
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void SaveNoChangesTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            
+            var address = new Address();
+            
+            //Act
+            var result = addressRepository.Save(address);
+
+            //Assert            
+            Assert.False(result);
+        }
+
+        
+        [Fact]
+        public void SaveLoadTwiceWithChangesTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            addressRepository.Save(address);
+            var loadedAddress = addressRepository.Load(address.Id);
+            loadedAddress.City = "Unknown";
+            
+            //Act
+            var saveResult = addressRepository.Save(loadedAddress);
+            var result = addressRepository.Load(loadedAddress.Id);
+
+            //Assert            
+            Assert.True(saveResult);
+            Assert.NotEqual(address, loadedAddress);
+            Assert.NotEqual(loadedAddress, result);
+            Assert.NotEqual(address, result);
+            Assert.Equal(address.Id, loadedAddress.Id);
+            Assert.Equal(address.Id, result.Id);
+            Assert.NotEqual(address.City, loadedAddress.City);
+            Assert.Equal(loadedAddress.City, result.City);
+        }
+
+        [Fact]
+        public void SaveLoadTwiceNoChangesTest()
+        {
+            //Arrange
+            var addressRepository = new AddressRepository();
+            
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            addressRepository.Save(address);
+            var loadedAddress = addressRepository.Load(address.Id);
+            
+            //Act
+            var saveResult = addressRepository.Save(loadedAddress);
+            var result = addressRepository.Load(loadedAddress.Id);
+
+            //Assert            
+            Assert.False(saveResult);
+            Assert.NotEqual(address, loadedAddress);
+            Assert.NotEqual(loadedAddress, result);
+            Assert.NotEqual(address, result);
+            Assert.Equal(address.Id, loadedAddress.Id);
+            Assert.Equal(address.Id, result.Id);
+            Assert.Equal(address.City, loadedAddress.City);
+            Assert.Equal(loadedAddress.City, result.City);
+        }
+
+        [Fact]
         public void LoadValidTest()
         {
             //Arrange
             var addressRepository = new AddressRepository();
 
-            var address = new Address(1) { StreetLine1 = "Awesome 5 street", City = "Awesome Town", State = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
-            var address2 = new Address(2) { StreetLine1 = "Perfect 6 street", City = "Perfect Town", State = "PS", Country = "Perfactionland", Code = "32592", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address2 = new Address() { StreetLine1 = "Perfect 6 street", City = "Perfect Town", StateOrRegion = "PS", Country = "Perfactionland", Code = "32592", Type = 1 };
 
             addressRepository.Save(address);
             addressRepository.Save(address2);
 
             //Act
-            var result = addressRepository.Load(1);
-            var result2 = addressRepository.Load(2);
+            var result = addressRepository.Load(address.Id);
+            var result2 = addressRepository.Load(address2.Id);
 
             //Assert            
             Assert.NotEqual(address, result);
@@ -65,12 +147,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             //Arrange
             var addressRepository = new AddressRepository();
 
-            var address = new Address(1) { StreetLine1 = "Awesome 5 street", City = "Awesome Town", State = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
             addressRepository.Save(address);
 
             //Act
-            var result = addressRepository.Load(2);
+            var result = addressRepository.Load(0);
 
             //Assert            
             Assert.NotEqual(address, result);

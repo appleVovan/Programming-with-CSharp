@@ -1,4 +1,4 @@
-﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer;
+﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
 using Xunit;
 
@@ -12,7 +12,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             //Arrange
             var productRepository = new ProductRepository();
             
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             
             //Act
             var result = productRepository.Save(product);
@@ -22,20 +22,102 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         }
 
         [Fact]
+        public void SaveInValidTest()
+        {
+            //Arrange
+            var productRepository = new ProductRepository();
+            
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench" };
+            
+            //Act
+            var result = productRepository.Save(product);
+
+            //Assert            
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void SaveNoChangesTest()
+        {
+            //Arrange
+            var productRepository = new ProductRepository();
+            
+            var product = new Product();
+            
+            //Act
+            var result = productRepository.Save(product);
+
+            //Assert            
+            Assert.False(result);
+        }
+
+        
+        [Fact]
+        public void SaveLoadTwiceWithChangesTest()
+        {
+            //Arrange
+            var productRepository = new ProductRepository();
+            
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            productRepository.Save(product);
+            var loadedProduct = productRepository.Load(product.Id);
+            loadedProduct.Description = "Misc";
+            
+            //Act
+            var saveResult = productRepository.Save(loadedProduct);
+            var result = productRepository.Load(loadedProduct.Id);
+
+            //Assert            
+            Assert.True(saveResult);
+            Assert.NotEqual(product, loadedProduct);
+            Assert.NotEqual(loadedProduct, result);
+            Assert.NotEqual(product, result);
+            Assert.Equal(product.Id, loadedProduct.Id);
+            Assert.Equal(product.Id, result.Id);
+            Assert.NotEqual(product.Description, loadedProduct.Description);
+            Assert.Equal(loadedProduct.Description, result.Description);
+        }
+
+        [Fact]
+        public void SaveLoadTwiceNoChangesTest()
+        {
+            //Arrange
+            var productRepository = new ProductRepository();
+            
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            productRepository.Save(product);
+            var loadedProduct = productRepository.Load(product.Id);
+            
+            //Act
+            var saveResult = productRepository.Save(loadedProduct);
+            var result = productRepository.Load(loadedProduct.Id);
+
+            //Assert            
+            Assert.False(saveResult);
+            Assert.NotEqual(product, loadedProduct);
+            Assert.NotEqual(loadedProduct, result);
+            Assert.NotEqual(product, result);
+            Assert.Equal(product.Id, loadedProduct.Id);
+            Assert.Equal(product.Id, result.Id);
+            Assert.Equal(product.Description, loadedProduct.Description);
+            Assert.Equal(loadedProduct.Description, result.Description);
+        }
+
+        [Fact]
         public void LoadValidTest()
         {
             //Arrange
             var productRepository = new ProductRepository();
 
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
-            var product2 = new Product(2) { Name = "Balthazar Vinyl", Description = "Thin Walls", Price = 60.0 };
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            var product2 = new Product() { Name = "Balthazar Vinyl", Description = "Thin Walls", Price = 60.0 };
             
             productRepository.Save(product);
             productRepository.Save(product2);
 
             //Act
-            var result = productRepository.Load(1);
-            var result2 = productRepository.Load(2);
+            var result = productRepository.Load(product.Id);
+            var result2 = productRepository.Load(product2.Id);
 
             //Assert            
             Assert.NotEqual(product, result);
@@ -57,12 +139,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             //Arrange
             var productRepository = new ProductRepository();
 
-            var product = new Product(1) { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
+            var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             
             productRepository.Save(product);
 
             //Act
-            var result = productRepository.Load(2);
+            var result = productRepository.Load(0);
 
             //Assert            
             Assert.NotEqual(product, result);

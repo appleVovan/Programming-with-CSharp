@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
+namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
-    public class Customer
+    public class Customer : EntityBase
     {
-        public static int InstanceCount { get; set; }
+        private static int InstanceCount;
 
         private int _id;
         private string _lastName;
@@ -22,18 +22,39 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
         }
         public string LastName
         {
-            get { return _lastName; }
-            set { _lastName = value; }
+            get
+            {
+                return _lastName;
+            }
+            set
+            {
+                _lastName = value;
+                HasChanges = true;
+            }
         }
         public string FirstName
         {
-            get { return _firstName; }
-            set { _firstName = value; }
-        }     
+            get
+            {
+                return _firstName;
+            }
+            set
+            {
+                _firstName = value;
+                HasChanges = true;
+            }
+        }
         public string Email
         {
-            get { return _email; }
-            set { _email = value; }
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                _email = value;
+                HasChanges = true;
+            }
         }
         public string FullName
         {
@@ -50,39 +71,52 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer
                 }
                 return result;
             }
-        }        
-        public List<Address> Addresses 
-        { 
-            get 
-            { 
+        }
+        public List<Address> Addresses
+        {
+            get
+            {
                 return _addresses;
-            }
-            set
-            { 
-                _addresses = value; 
             }
         }
         public int Type
         {
-            get { return _type; }
-            set { _type = value; }
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+                HasChanges = true;
+            }
         }
 
 
         public Customer()
         {
+            IsNew = true;
+            InstanceCount += 1;
+            _id = InstanceCount;
             _addresses = new List<Address>();
         }
-        public Customer(int id) : this()
+        public Customer(int id, string lastName, string firstName, string email, List<Address> addresses, int type)
         {
             _id = id;
+            _lastName = lastName;
+            _firstName = firstName;
+            _email = email;
+            _addresses = addresses;
+            _type = type;
         }
-        
 
-        public bool Validate()
+
+        public override bool Validate()
         {
             var result = true;
 
+            if (Id <= 0)
+                result = false;
             if (String.IsNullOrWhiteSpace(LastName))
                 result = false;
             if (String.IsNullOrWhiteSpace(Email))
