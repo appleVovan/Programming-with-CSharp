@@ -2,7 +2,7 @@ using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using System;
 using Xunit;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
+namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
 {
     public class OrderTest
     {
@@ -14,7 +14,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
             var orderItem = new OrderItem(1) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
-            
+
             order.Items.Add(orderItem);
 
             //Act
@@ -23,7 +23,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
             //Assert
             Assert.True(actual);
         }
-        
+
         [Fact]
         public void ValidateNoDate()
         {
@@ -32,7 +32,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
 
             var order = new Order() { CustomerId = 1, Address = address };
             var orderItem = new OrderItem(1) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
-            
+
             order.Items.Add(orderItem);
 
             //Act

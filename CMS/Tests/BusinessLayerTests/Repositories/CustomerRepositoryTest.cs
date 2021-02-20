@@ -2,7 +2,7 @@
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
 using Xunit;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
+namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 {
     public class CustomerRepositoryTest
     {
@@ -11,9 +11,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var customerRepository = new CustomerRepository();
-            
+
             var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
-            
+
             //Act
             var result = customerRepository.Save(customer);
 
@@ -26,9 +26,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var customerRepository = new CustomerRepository();
-            
+
             var customer = new Customer() { FirstName = "Volodymyr", Email = "yvr@gmail.com" };
-            
+
             //Act
             var result = customerRepository.Save(customer);
 
@@ -41,9 +41,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var customerRepository = new CustomerRepository();
-            
+
             var customer = new Customer();
-            
+
             //Act
             var result = customerRepository.Save(customer);
 
@@ -63,7 +63,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
 
             var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
             customer.Addresses.Add(address);
-            
+
 
             //Act
             var result = customerRepository.Save(customer);
@@ -87,7 +87,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             customerRepository.Save(customer);
             var loadedCustomer = customerRepository.Load(customer.Id);
             loadedCustomer.LastName = "Apple";
-            
+
             //Act
             var saveResult = customerRepository.Save(loadedCustomer);
             var result = customerRepository.Load(loadedCustomer.Id);
@@ -118,7 +118,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             customer.Addresses.Add(address);
             customerRepository.Save(customer);
             var loadedCustomer = customerRepository.Load(customer.Id);
-            
+
             //Act
             var saveResult = customerRepository.Save(loadedCustomer);
             var result = customerRepository.Load(loadedCustomer.Id);
@@ -200,9 +200,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var customerRepository = new CustomerRepository();
-            
+
             var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
-            
+
             customerRepository.Save(customer);
 
             //Act

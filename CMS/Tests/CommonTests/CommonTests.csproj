@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer</AssemblyName>
+    <AssemblyName>AR.ProgrammingWithCSharp.CMS.Tests.Common</AssemblyName>
 
-    <RootNamespace>AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer</RootNamespace>
+    <RootNamespace>AR.ProgrammingWithCSharp.CMS.Tests.Common</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BusinessLayer\BusinessLayer.csproj" />
+    <ProjectReference Include="..\..\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

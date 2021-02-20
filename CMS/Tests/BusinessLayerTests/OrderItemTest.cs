@@ -2,7 +2,7 @@ using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using System;
 using Xunit;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
+namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
 {
     public class OrderItemTest
     {
@@ -18,7 +18,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
             //Assert
             Assert.True(actual);
         }
-        
+
         [Fact]
         public void ValidateNoPrice()
         {

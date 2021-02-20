@@ -1,7 +1,7 @@
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using Xunit;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
+namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
 {
     public class CustomerTest
     {
@@ -54,7 +54,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
         public void ValidateValid()
         {
             //Arrange
-            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yablonskyi.v.reg@gmail.com"};
+            var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yablonskyi.v.reg@gmail.com" };
 
             //Act
             var actual = customer.Validate();
@@ -62,12 +62,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
             //Assert
             Assert.True(actual);
         }
-        
+
         [Fact]
         public void ValidateNoName()
         {
             //Arrange
-            var customer = new Customer() { Email = "yablonskyi.v.reg@gmail.com"};
+            var customer = new Customer() { Email = "yablonskyi.v.reg@gmail.com" };
 
             //Act
             var actual = customer.Validate();

@@ -1,7 +1,7 @@
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using Xunit;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests
+namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
 {
     public class AddressTest
     {

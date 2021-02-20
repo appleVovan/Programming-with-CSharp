@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AR.ProgrammingWithCSharp.CMS.Common;
+using System;
 using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
@@ -22,7 +23,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         {
             get 
             { 
-                return _name; 
+                return _name.InsertSpaces(); 
             }
             set 
             { 

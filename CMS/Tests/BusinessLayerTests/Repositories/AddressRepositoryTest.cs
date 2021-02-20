@@ -2,7 +2,7 @@
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
 using Xunit;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
+namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 {
     public class AddressRepositoryTest
     {
@@ -11,9 +11,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var addressRepository = new AddressRepository();
-            
+
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
-            
+
             //Act
             var result = addressRepository.Save(address);
 
@@ -26,9 +26,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var addressRepository = new AddressRepository();
-            
+
             var address = new Address() { City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
-            
+
             //Act
             var result = addressRepository.Save(address);
 
@@ -41,9 +41,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var addressRepository = new AddressRepository();
-            
+
             var address = new Address();
-            
+
             //Act
             var result = addressRepository.Save(address);
 
@@ -51,18 +51,18 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             Assert.False(result);
         }
 
-        
+
         [Fact]
         public void SaveLoadTwiceWithChangesTest()
         {
             //Arrange
             var addressRepository = new AddressRepository();
-            
+
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
             var loadedAddress = addressRepository.Load(address.Id);
             loadedAddress.City = "Unknown";
-            
+
             //Act
             var saveResult = addressRepository.Save(loadedAddress);
             var result = addressRepository.Load(loadedAddress.Id);
@@ -83,11 +83,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var addressRepository = new AddressRepository();
-            
+
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
             var loadedAddress = addressRepository.Load(address.Id);
-            
+
             //Act
             var saveResult = addressRepository.Save(loadedAddress);
             var result = addressRepository.Load(loadedAddress.Id);

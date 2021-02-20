@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>AR.ProgrammingWithCSharp.CMS.Common</AssemblyName>
+    <RootNamespace>AR.ProgrammingWithCSharp.CMS.Common</RootNamespace>
+  </PropertyGroup>
+
+</Project>

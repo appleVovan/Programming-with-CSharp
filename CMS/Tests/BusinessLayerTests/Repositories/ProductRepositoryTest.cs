@@ -2,7 +2,7 @@
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
 using Xunit;
 
-namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
+namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 {
     public class ProductRepositoryTest
     {
@@ -11,9 +11,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var productRepository = new ProductRepository();
-            
+
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
-            
+
             //Act
             var result = productRepository.Save(product);
 
@@ -26,9 +26,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var productRepository = new ProductRepository();
-            
+
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench" };
-            
+
             //Act
             var result = productRepository.Save(product);
 
@@ -41,9 +41,9 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var productRepository = new ProductRepository();
-            
+
             var product = new Product();
-            
+
             //Act
             var result = productRepository.Save(product);
 
@@ -51,18 +51,18 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             Assert.False(result);
         }
 
-        
+
         [Fact]
         public void SaveLoadTwiceWithChangesTest()
         {
             //Arrange
             var productRepository = new ProductRepository();
-            
+
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             productRepository.Save(product);
             var loadedProduct = productRepository.Load(product.Id);
             loadedProduct.Description = "Misc";
-            
+
             //Act
             var saveResult = productRepository.Save(loadedProduct);
             var result = productRepository.Load(loadedProduct.Id);
@@ -83,11 +83,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
         {
             //Arrange
             var productRepository = new ProductRepository();
-            
+
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             productRepository.Save(product);
             var loadedProduct = productRepository.Load(product.Id);
-            
+
             //Act
             var saveResult = productRepository.Save(loadedProduct);
             var result = productRepository.Load(loadedProduct.Id);
@@ -111,7 +111,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
 
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             var product2 = new Product() { Name = "Balthazar Vinyl", Description = "Thin Walls", Price = 60.0 };
-            
+
             productRepository.Save(product);
             productRepository.Save(product2);
 
@@ -140,7 +140,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayerTests.Repositories
             var productRepository = new ProductRepository();
 
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
-            
+
             productRepository.Save(product);
 
             //Act
