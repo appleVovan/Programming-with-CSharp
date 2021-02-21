@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AR.ProgrammingWithCSharp.CMS.Common;
+using System;
 using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
-    public class Customer : EntityBase
+    public class Customer : EntityBase, ILoggable
     {
         private static int InstanceCount;
 
@@ -123,6 +124,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
                 result = false;
 
             return result;
+        }
+
+        public string Log()
+        {
+            return $"Customer {_id}: {_lastName}, {_firstName}, Email: {_email}, Status: {State}";
         }
 
         public override string ToString()

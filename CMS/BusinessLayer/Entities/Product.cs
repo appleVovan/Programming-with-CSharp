@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
-    public class Product : EntityBase
+    public class Product : EntityBase, ILoggable
     {
         private static int InstanceCount;
         
@@ -84,6 +84,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
                 result = false;
 
             return result;
+        }        
+
+        public string Log()
+        {
+            return $"Customer {_id}: {_name}, Description: {_description}, Status: {State}";
         }
 
         public override string ToString()
