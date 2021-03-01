@@ -9,7 +9,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void ValidateValid()
         {
             //Arrange
-            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
 
             //Act
             var actual = address.Validate();
@@ -22,7 +22,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void ValidateNoStreetLine1()
         {
             //Arrange
-            var address = new Address() { City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
 
             //Act
             var actual = address.Validate();
@@ -35,7 +35,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void ValidateNoCity()
         {
             //Arrange
-            var address = new Address() { StreetLine1 = "Awesome 5 street", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
 
             //Act
             var actual = address.Validate();

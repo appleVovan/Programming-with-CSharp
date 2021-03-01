@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
+    public enum CustomerType
+    {
+        Private = 1,
+        Business = 2,
+        Government = 3,
+        Education = 4
+    }
+
     public class Customer : EntityBase, ILoggable
     {
         private Guid _guid;
@@ -11,7 +19,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         private string _firstName;
         private string _email;
         private List<Address> _addresses;
-        private int _type;
+        private CustomerType _type;
 
 
         public Guid Guid
@@ -78,7 +86,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
                 return _addresses;
             }
         }
-        public int Type
+        public CustomerType Type
         {
             get
             {
@@ -98,7 +106,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
             _guid = Guid.NewGuid();
             _addresses = new List<Address>();
         }
-        public Customer(Guid guid, string lastName, string firstName, string email, List<Address> addresses, int type)
+        public Customer(Guid guid, string lastName, string firstName, string email, List<Address> addresses, CustomerType type)
         {
             _guid = guid;
             _lastName = lastName;

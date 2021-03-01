@@ -64,7 +64,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                             new KeyValuePair<string, string>("StateOrRegion", address.StateOrRegion),
                             new KeyValuePair<string, string>("Country", address.Country),
                             new KeyValuePair<string, string>("Code", address.Code),
-                            new KeyValuePair<string, string>("Type", address.Type.ToString()));
+                            new KeyValuePair<string, string>("Type", ((int)address.Type).ToString()));
                     }
                     else
                     {
@@ -75,7 +75,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                             new KeyValuePair<string, string>("StateOrRegion", address.StateOrRegion),
                             new KeyValuePair<string, string>("Country", address.Country),
                             new KeyValuePair<string, string>("Code", address.Code),
-                            new KeyValuePair<string, string>("Type", address.Type.ToString()));
+                            new KeyValuePair<string, string>("Type", ((int)address.Type).ToString()));
                     }
                 }
                 else
@@ -92,7 +92,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         private Address CreateAddress(Record record)
         {
-            var newAddress = new Address(Guid.Parse(record["Guid"]), int.Parse(record["Type"]), record["StreetLine1"], 
+            var newAddress = new Address(Guid.Parse(record["Guid"]), (AddressType)int.Parse(record["Type"]), record["StreetLine1"], 
                 record["StreetLine2"], record["City"], record["StateOrRegion"], record["Country"], record["Code"]);
             return newAddress;
         }

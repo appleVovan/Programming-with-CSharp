@@ -62,7 +62,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                             new KeyValuePair<string, string>("FirstName", customer.FirstName),
                             new KeyValuePair<string, string>("LastName", customer.LastName),
                             new KeyValuePair<string, string>("Email", customer.Email),
-                            new KeyValuePair<string, string>("Type", customer.Type.ToString()));
+                            new KeyValuePair<string, string>("Type", ((int)customer.Type).ToString()));
                     }
                     else
                     {
@@ -70,7 +70,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                             new KeyValuePair<string, string>("FirstName", customer.FirstName),
                             new KeyValuePair<string, string>("LastName", customer.LastName),
                             new KeyValuePair<string, string>("Email", customer.Email),
-                            new KeyValuePair<string, string>("Type", customer.Type.ToString()));
+                            new KeyValuePair<string, string>("Type", ((int)customer.Type).ToString()));
                         _customerToAddressStorage.RemoveAllMatchingRecords("CustomerGuid", customer.Guid.ToString());
                     }
                     foreach (var address in customer.Addresses)
@@ -96,7 +96,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         {
             Guid guid = Guid.Parse(record["Guid"]);
             var addresses = LoadAddresses(guid);
-            var newCustomer = new Customer(guid, record["LastName"], record["FirstName"], record["Email"], addresses, int.Parse(record["Type"]));
+            var newCustomer = new Customer(guid, record["LastName"], record["FirstName"], record["Email"], addresses, (CustomerType)int.Parse(record["Type"]));
             return newCustomer;
         }
 

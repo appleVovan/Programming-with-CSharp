@@ -13,7 +13,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             //Arrange
             var orderRepository = new OrderRepository();
 
-            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
 
             var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
@@ -33,7 +33,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             //Arrange
             var orderRepository = new OrderRepository();
 
-            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
 
             var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
@@ -72,7 +72,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var addressRepository = new AddressRepository();
             var orderRepository = new OrderRepository(addressRepository);
 
-            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
             addressRepository.Save(address);
 
             var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
@@ -108,7 +108,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var addressRepository = new AddressRepository();
             var orderRepository = new OrderRepository(addressRepository);
 
-            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
             addressRepository.Save(address);
 
             var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
@@ -141,8 +141,8 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
         {
             //Arrange
             var addressRepository = new AddressRepository();
-            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
-            var address2 = new Address() { StreetLine1 = "Perfect 6 street", City = "Perfect Town", StateOrRegion = "PS", Country = "Perfactionland", Code = "32592", Type = 1 };
+            var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = AddressType.Home };
+            var address2 = new Address() { StreetLine1 = "Perfect 6 street", City = "Perfect Town", StateOrRegion = "PS", Country = "Perfactionland", Code = "32592", Type = AddressType.Home };
             addressRepository.Save(address);
             addressRepository.Save(address2);
 

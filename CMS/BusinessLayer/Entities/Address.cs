@@ -2,10 +2,17 @@
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
+    public enum AddressType
+    {
+        Other = 0,
+        Home = 1,
+        Work = 2
+    }
+
     public class Address : EntityBase
     {
         private Guid _guid;
-        private int _type;
+        private AddressType _type;
         private string _streetLine1;
         private string _streetLine2;
         private string _city;
@@ -19,7 +26,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
             get { return _guid; }
             private set { _guid = value; }
         }
-        public int Type
+        public AddressType Type
         {
             get
             {
@@ -110,7 +117,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
             IsNew = true;
             _guid = Guid.NewGuid();
         }
-        public Address(Guid guid, int type, string streetLine1, string streetLine2, string city, string stateOrRegion, string country, string code)
+        public Address(Guid guid, AddressType type, string streetLine1, string streetLine2, string city, string stateOrRegion, string country, string code)
         {
             _guid = guid;
             _type = type;
