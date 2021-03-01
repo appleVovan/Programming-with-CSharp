@@ -120,7 +120,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             Guid guid = Guid.Parse(record["Guid"]);
             var items = LoadItems(guid);
             var address = _addressRepository.Load(Guid.Parse(record["AddressGuid"]));
-            var newOrder = new Order(guid, int.Parse(record["Id"]), DateTime.Parse(record["Date"]), items, address, Guid.Parse(record["CustomerGuid"]));        
+            var newOrder = new Order(guid, int.Parse(record["Id"]), DateTimeOffset.Parse(record["Date"]), items, address, Guid.Parse(record["CustomerGuid"]));        
             return newOrder;
         }    
         private List<OrderItem> LoadItems(Guid orderGuid)

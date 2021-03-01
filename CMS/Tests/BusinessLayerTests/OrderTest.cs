@@ -12,7 +12,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Arrange
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);

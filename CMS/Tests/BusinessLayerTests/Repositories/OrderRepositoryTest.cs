@@ -15,7 +15,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
@@ -35,7 +35,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), Address = address };
+            var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
@@ -75,7 +75,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
@@ -111,7 +111,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
@@ -148,11 +148,11 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var orderRepository = new OrderRepository(addressRepository);
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address };
             var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
-            var order2 = new Order() { Date = new DateTime(2021, 01, 14, 16, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address2 };
+            var order2 = new Order() { Date = new DateTimeOffset(2021, 01, 14, 16, 0, 0, new TimeSpan(2, 0, 0)), CustomerGuid = Guid.NewGuid(), Address = address2 };
             var orderItem2 = new OrderItem(order2.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 20.00, Quantity = 1 };
             order2.Items.Add(orderItem2);
 
@@ -195,7 +195,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
         public void LoadInvalidTest()
         {
             //Arrange
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0) };
+            var order = new Order() { Date = new DateTimeOffset(2021, 01, 14, 15, 0, 0, new TimeSpan(2, 0, 0)) };
             var orderRepository = new OrderRepository();
             orderRepository.Save(order);
 

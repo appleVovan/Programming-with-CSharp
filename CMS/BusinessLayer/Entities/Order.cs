@@ -10,7 +10,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 
         private Guid _guid;
         private int _id;
-        private DateTime? _date;
+        private DateTimeOffset? _date;
         private List<OrderItem> _items;
         private Address _address;
         private Guid _customerGuid;
@@ -31,7 +31,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
             get { return _id; }
             private set { _id = value; }
         }
-        public DateTime? Date
+        public DateTimeOffset? Date
         {
             get
             {
@@ -84,7 +84,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
             InstanceCount += 1;
             _id = InstanceCount;
         }
-        public Order(Guid guid, int id, DateTime date, List<OrderItem> items, Address address, Guid customerGuid)
+        public Order(Guid guid, int id, DateTimeOffset date, List<OrderItem> items, Address address, Guid customerGuid)
         {
             _guid = guid;
             _id = id;
