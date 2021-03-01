@@ -9,7 +9,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         private Guid _productGuid;
         private double? _purchasePrice;
         private int _quantity;
-        private int _orderId;
+        private Guid _orderGuid;
 
 
         public Guid Guid
@@ -53,23 +53,23 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
                 HasChanges = true;
             }
         }
-        public int OrderId
+        public Guid OrderGuid
         {
-            get { return _orderId; }
-            private set { _orderId = value; }
+            get { return _orderGuid; }
+            private set { _orderGuid = value; }
         }
 
 
-        public OrderItem(int orderId)
+        public OrderItem(Guid orderGuid)
         {
             IsNew = true;
             _guid = Guid.NewGuid();
-            _orderId = orderId;
+            _orderGuid = orderGuid;
         }
-        public OrderItem(Guid guid, int orderId, Guid productGuid, double purchasePrice, int quantity)
+        public OrderItem(Guid guid, Guid orderGuid, Guid productGuid, double purchasePrice, int quantity)
         {
             _guid = guid;
-            _orderId = orderId;
+            _orderGuid = orderGuid;
             _productGuid = productGuid;
             _purchasePrice = purchasePrice;
             _quantity = quantity;
@@ -82,7 +82,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 
             if (Guid == Guid.Empty)
                 result = false;
-            if (OrderId <= 0)
+            if (OrderGuid == Guid.Empty)
                 result = false;
             if (ProductGuid == Guid.Empty)
                 result = false;

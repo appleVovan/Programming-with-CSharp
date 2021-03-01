@@ -12,8 +12,8 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Arrange
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(1) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -30,8 +30,8 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Arrange
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order() { CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(1) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { CustomerGuid = Guid.NewGuid(), Address = address };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -48,7 +48,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Arrange
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order() { CustomerId = 1, Address = address };
+            var order = new Order() { CustomerGuid = Guid.NewGuid(), Address = address };
 
             //Act
             var actual = order.Validate();
@@ -83,6 +83,22 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Assert
             Assert.Equal(order1.Id, order.Id + 1);
             Assert.Equal(order2.Id, order1.Id + 1);
+        }
+
+        [Fact]
+        public void OrderGuidTest()
+        {
+            //Arrange
+            var order = new Order();
+            var order1 = new Order();
+            var order2 = new Order();
+
+            //Act            
+
+            //Assert
+            Assert.NotEqual(order.Guid, order1.Guid);
+            Assert.NotEqual(order.Guid, order2.Guid);
+            Assert.NotEqual(order1.Guid, order2.Guid);
         }
     }
 }

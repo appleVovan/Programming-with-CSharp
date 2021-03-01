@@ -33,11 +33,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             }
             return result;
         }
-        public Order Load(int id)
+        public Order Load(Guid guid)
         {
             for (int i=0; i<_storage.Length; i++)
             {
-                if (int.Parse(_storage[i]["Id"]) == id)
+                if (Guid.Parse(_storage[i]["Guid"]) == guid)
                 {
                     var newOrder = CreateOrder(_storage[i]);
                     return newOrder;
@@ -57,16 +57,18 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                     if (order.IsNew)
                     {
                         result = _storage.AddRecord(
+                            new KeyValuePair<string, string>("Guid", order.Guid.ToString()),
                             new KeyValuePair<string, string>("Id", order.Id.ToString()),
-                            new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
-                            new KeyValuePair<string, string>("AddressId", order.Address?.Guid.ToString()),
+                            new KeyValuePair<string, string>("CustomerGuid", order.CustomerGuid.ToString()),
+                            new KeyValuePair<string, string>("AddressGuid", order.Address?.Guid.ToString()),
                             new KeyValuePair<string, string>("Date", order.Date.ToString()));
                     }
                     else
                     {
-                        result = _storage.UpdateRecord(order.Id.ToString(),
-                            new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
-                            new KeyValuePair<string, string>("AddressId", order.Address?.Guid.ToString()),
+                        result = _storage.UpdateRecord(order.Guid.ToString(),
+                            new KeyValuePair<string, string>("Id", order.Id.ToString()),
+                            new KeyValuePair<string, string>("CustomerGuid", order.CustomerGuid.ToString()),
+                            new KeyValuePair<string, string>("AddressGuid", order.Address?.Guid.ToString()),
                             new KeyValuePair<string, string>("Date", order.Date.ToString()));
                     }
                     SaveItems(order.Items);
@@ -95,7 +97,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                         {
                             _itemStorage.AddRecord(
                                 new KeyValuePair<string, string>("Guid", item.Guid.ToString()),
-                                new KeyValuePair<string, string>("OrderId", item.OrderId.ToString()),
+                                new KeyValuePair<string, string>("OrderGuid", item.OrderGuid.ToString()),
                                 new KeyValuePair<string, string>("ProductGuid", item.ProductGuid.ToString()),
                                 new KeyValuePair<string, string>("PurchasePrice", item.PurchasePrice.ToString()),
                                 new KeyValuePair<string, string>("Quantity", item.Quantity.ToString()));
@@ -103,7 +105,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                         else
                         {
                             _itemStorage.UpdateRecord(item.Guid.ToString(),
-                                new KeyValuePair<string, string>("OrderId", item.OrderId.ToString()),
+                                new KeyValuePair<string, string>("OrderGuid", item.OrderGuid.ToString()),
                                 new KeyValuePair<string, string>("ProductId", item.ProductGuid.ToString()),
                                 new KeyValuePair<string, string>("PurchasePrice", item.PurchasePrice.ToString()),
                                 new KeyValuePair<string, string>("Quantity", item.Quantity.ToString()));
@@ -115,18 +117,18 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         
         private Order CreateOrder(Record record)
         {
-            int id = int.Parse(record["Id"]);
-            var items = LoadItems(id);
-            var address = _addressRepository.Load(Guid.Parse(record["AddressId"]));
-            var newOrder = new Order(id, DateTime.Parse(record["Date"]), items, address, int.Parse(record["CustomerId"]));        
+            Guid guid = Guid.Parse(record["Guid"]);
+            var items = LoadItems(guid);
+            var address = _addressRepository.Load(Guid.Parse(record["AddressGuid"]));
+            var newOrder = new Order(guid, int.Parse(record["Id"]), DateTime.Parse(record["Date"]), items, address, Guid.Parse(record["CustomerGuid"]));        
             return newOrder;
         }    
-        private List<OrderItem> LoadItems(int orderId)
+        private List<OrderItem> LoadItems(Guid orderGuid)
         {
             var result = new List<OrderItem>();
             for (int i=0; i<_itemStorage.Length; i++)
             {
-                if (int.Parse(_itemStorage[i]["OrderId"]) == orderId)
+                if (Guid.Parse(_itemStorage[i]["OrderGuid"]) == orderGuid)
                 {
                     var newItem = CreateItem(_itemStorage[i]);
                     result.Add(newItem);
@@ -137,7 +139,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         private OrderItem CreateItem(Record record)
         {
-            var newOrder = new OrderItem(Guid.Parse(record["Guid"]), int.Parse(record["OrderId"]), Guid.Parse(record["ProductGuid"]), double.Parse(record["PurchasePrice"]), int.Parse(record["Quantity"]));
+            var newOrder = new OrderItem(Guid.Parse(record["Guid"]), Guid.Parse(record["OrderGuid"]), Guid.Parse(record["ProductGuid"]), double.Parse(record["PurchasePrice"]), int.Parse(record["Quantity"]));
             return newOrder;
         }
         

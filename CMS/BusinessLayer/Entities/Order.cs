@@ -8,13 +8,24 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
     {
         private static int InstanceCount;
 
+        private Guid _guid;
         private int _id;
         private DateTime? _date;
         private List<OrderItem> _items;
         private Address _address;
-        private int _customerId;
+        private Guid _customerGuid;
 
-
+        public Guid Guid
+        {
+            get
+            {
+                return _guid;
+            }
+            private set
+            {
+                _guid = value;
+            }
+        }
         public int Id
         {
             get { return _id; }
@@ -51,15 +62,15 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
                 HasChanges = true;
             }
         }
-        public int CustomerId
+        public Guid CustomerGuid
         {
             get
             {
-                return _customerId;
+                return _customerGuid;
             }
             set
             {
-                _customerId = value;
+                _customerGuid = value;
                 HasChanges = true;
             }
         }
@@ -68,17 +79,19 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         public Order()
         {
             _items = new List<OrderItem>();
-            IsNew = true;
+            IsNew = true;  
+            _guid = Guid.NewGuid();
             InstanceCount += 1;
             _id = InstanceCount;
         }
-        public Order(int id, DateTime date, List<OrderItem> items, Address address, int customerId)
+        public Order(Guid guid, int id, DateTime date, List<OrderItem> items, Address address, Guid customerGuid)
         {
+            _guid = guid;
             _id = id;
             _date = date;
             _items = items;
             _address = address;
-            _customerId = customerId;
+            _customerGuid = customerGuid;
         }
 
 
@@ -86,6 +99,8 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         {
             var result = true;
 
+            if (Guid == Guid.Empty)
+                result = false;
             if (Id <= 0)
                 result = false;
             if (Date == null)
@@ -94,7 +109,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
                 result = false;
             if (Address == null)
                 result = false;
-            if (CustomerId <= 0)
+            if (CustomerGuid == Guid.Empty)
                 result = false;
 
             return result;

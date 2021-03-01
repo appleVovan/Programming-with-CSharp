@@ -10,7 +10,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void ValidateValid()
         {
             //Arrange
-            var orderItem = new OrderItem(1) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(Guid.NewGuid()) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             //Act
             var actual = orderItem.Validate();
@@ -23,7 +23,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void ValidateNoPrice()
         {
             //Arrange
-            var orderItem = new OrderItem(1) { ProductGuid = Guid.NewGuid(), Quantity = 1 };
+            var orderItem = new OrderItem(Guid.NewGuid()) { ProductGuid = Guid.NewGuid(), Quantity = 1 };
 
             //Act
             var actual = orderItem.Validate();
@@ -36,7 +36,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void ValidateNoQTY()
         {
             //Arrange
-            var orderItem = new OrderItem(1) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00 };
+            var orderItem = new OrderItem(Guid.NewGuid()) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00 };
 
             //Act
             var actual = orderItem.Validate();
@@ -49,7 +49,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void ValidateEmptyOrder()
         {
             //Arrange
-            var orderItem = new OrderItem(1);
+            var orderItem = new OrderItem(Guid.NewGuid());
 
             //Act
             var actual = orderItem.Validate();
@@ -62,9 +62,9 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         public void OrderItemCounterTest()
         {
             //Arrange
-            var orderItem = new OrderItem(1);
-            var orderItem1 = new OrderItem(1);
-            var orderItem2 = new OrderItem(1);
+            var orderItem = new OrderItem(Guid.NewGuid());
+            var orderItem1 = new OrderItem(Guid.NewGuid());
+            var orderItem2 = new OrderItem(Guid.NewGuid());
 
             //Act            
 

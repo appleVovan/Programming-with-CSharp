@@ -15,8 +15,8 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -36,7 +36,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -54,7 +54,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var orderRepository = new OrderRepository();
 
             var order = new Order();
-            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -75,28 +75,28 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
             orderRepository.Save(order);
-            var loadedOrder = orderRepository.Load(order.Id);
-            loadedOrder.CustomerId = 2;
+            var loadedOrder = orderRepository.Load(order.Guid);
+            loadedOrder.CustomerGuid = Guid.NewGuid();
             loadedOrder.Items[0].Quantity = 2;
 
             //Act
             var saveResult = orderRepository.Save(loadedOrder);
-            var result = orderRepository.Load(loadedOrder.Id);
+            var result = orderRepository.Load(loadedOrder.Guid);
 
             //Assert            
             Assert.True(saveResult);
             Assert.NotEqual(order, loadedOrder);
             Assert.NotEqual(loadedOrder, result);
             Assert.NotEqual(order, result);
-            Assert.Equal(order.Id, loadedOrder.Id);
-            Assert.Equal(order.Id, result.Id);
-            Assert.NotEqual(order.CustomerId, loadedOrder.CustomerId);
-            Assert.Equal(loadedOrder.CustomerId, result.CustomerId);
+            Assert.Equal(order.Guid, loadedOrder.Guid);
+            Assert.Equal(order.Guid, result.Guid);
+            Assert.NotEqual(order.CustomerGuid, loadedOrder.CustomerGuid);
+            Assert.Equal(loadedOrder.CustomerGuid, result.CustomerGuid);
             Assert.NotEqual(order.Items[0].Quantity, loadedOrder.Items[0].Quantity);
             Assert.Equal(loadedOrder.Items[0].Quantity, result.Items[0].Quantity);
         }
@@ -111,26 +111,26 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
             orderRepository.Save(order);
-            var loadedOrder = orderRepository.Load(order.Id);
+            var loadedOrder = orderRepository.Load(order.Guid);
 
             //Act
             var saveResult = orderRepository.Save(loadedOrder);
-            var result = orderRepository.Load(loadedOrder.Id);
+            var result = orderRepository.Load(loadedOrder.Guid);
 
             //Assert            
             Assert.False(saveResult);
             Assert.NotEqual(order, loadedOrder);
             Assert.NotEqual(loadedOrder, result);
             Assert.NotEqual(order, result);
-            Assert.Equal(order.Id, loadedOrder.Id);
-            Assert.Equal(order.Id, result.Id);
-            Assert.Equal(order.CustomerId, loadedOrder.CustomerId);
-            Assert.Equal(loadedOrder.CustomerId, result.CustomerId);
+            Assert.Equal(order.Guid, loadedOrder.Guid);
+            Assert.Equal(order.Guid, result.Guid);
+            Assert.Equal(order.CustomerGuid, loadedOrder.CustomerGuid);
+            Assert.Equal(loadedOrder.CustomerGuid, result.CustomerGuid);
             Assert.Equal(order.Items[0].Quantity, loadedOrder.Items[0].Quantity);
             Assert.Equal(loadedOrder.Items[0].Quantity, result.Items[0].Quantity);
         }
@@ -148,44 +148,44 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var orderRepository = new OrderRepository(addressRepository);
 
-            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
+            var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address };
+            var orderItem = new OrderItem(order.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
-            var order2 = new Order() { Date = new DateTime(2021, 01, 14, 16, 0, 0), CustomerId = 2, Address = address2 };
-            var orderItem2 = new OrderItem(order2.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 20.00, Quantity = 1 };
+            var order2 = new Order() { Date = new DateTime(2021, 01, 14, 16, 0, 0), CustomerGuid = Guid.NewGuid(), Address = address2 };
+            var orderItem2 = new OrderItem(order2.Guid) { ProductGuid = Guid.NewGuid(), PurchasePrice = 20.00, Quantity = 1 };
             order2.Items.Add(orderItem2);
 
             orderRepository.Save(order);
             orderRepository.Save(order2);
 
             //Act
-            var result = orderRepository.Load(order.Id);
-            var result2 = orderRepository.Load(order2.Id);
+            var result = orderRepository.Load(order.Guid);
+            var result2 = orderRepository.Load(order2.Guid);
 
             //Assert            
             Assert.NotEqual(order, result);
-            Assert.Equal(order.Id, result.Id);
+            Assert.Equal(order.Guid, result.Guid);
             Assert.Equal(order.Date, result.Date);
-            Assert.Equal(order.CustomerId, result.CustomerId);
+            Assert.Equal(order.CustomerGuid, result.CustomerGuid);
             Assert.Equal(order.Address.Guid, result.Address.Guid);
             Assert.Equal(order.Items.Count, result.Items.Count);
             Assert.NotEqual(orderItem, result.Items[0]);
             Assert.Equal(orderItem.Guid, result.Items[0].Guid);
-            Assert.Equal(orderItem.OrderId, result.Items[0].OrderId);
+            Assert.Equal(orderItem.OrderGuid, result.Items[0].OrderGuid);
             Assert.Equal(orderItem.ProductGuid, result.Items[0].ProductGuid);
             Assert.Equal(orderItem.PurchasePrice, result.Items[0].PurchasePrice);
             Assert.Equal(orderItem.Quantity, result.Items[0].Quantity);
 
             Assert.NotEqual(order2, result2);
-            Assert.Equal(order2.Id, result2.Id);
+            Assert.Equal(order2.Guid, result2.Guid);
             Assert.Equal(order2.Date, result2.Date);
-            Assert.Equal(order2.CustomerId, result2.CustomerId);
+            Assert.Equal(order2.CustomerGuid, result2.CustomerGuid);
             Assert.Equal(order2.Address.Guid, result2.Address.Guid);
             Assert.Equal(order2.Items.Count, result2.Items.Count);
             Assert.NotEqual(orderItem2, result2.Items[0]);
             Assert.Equal(orderItem2.Guid, result2.Items[0].Guid);
-            Assert.Equal(orderItem2.OrderId, result2.Items[0].OrderId);
+            Assert.Equal(orderItem2.OrderGuid, result2.Items[0].OrderGuid);
             Assert.Equal(orderItem2.ProductGuid, result2.Items[0].ProductGuid);
             Assert.Equal(orderItem2.PurchasePrice, result2.Items[0].PurchasePrice);
             Assert.Equal(orderItem2.Quantity, result2.Items[0].Quantity);
@@ -200,7 +200,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             orderRepository.Save(order);
 
             //Act
-            var result = orderRepository.Load(0);
+            var result = orderRepository.Load(Guid.NewGuid());
 
             //Assert            
             Assert.NotEqual(order, result);
