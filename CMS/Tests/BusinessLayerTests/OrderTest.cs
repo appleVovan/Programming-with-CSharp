@@ -13,7 +13,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(1) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(1) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -31,7 +31,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
             var order = new Order() { CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(1) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(1) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 

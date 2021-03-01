@@ -68,8 +68,9 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Act            
 
             //Assert
-            Assert.Equal(address1.Id, address.Id + 1);
-            Assert.Equal(address2.Id, address1.Id + 1);
+            Assert.NotEqual(address.Guid, address1.Guid);
+            Assert.NotEqual(address.Guid, address2.Guid);
+            Assert.NotEqual(address1.Guid, address2.Guid);
         }
     }
 }

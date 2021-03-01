@@ -6,18 +6,16 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
     public class Product : EntityBase, ILoggable
     {
-        private static int InstanceCount;
-        
-        private int _id;
+        private Guid _guid;
         private string _name;
         private string _description;
         private double? _price;
 
 
-        public int Id
+        public Guid Guid
         {
-            get { return _id; }
-            private set { _id = value; }
+            get { return _guid; }
+            private set { _guid = value; }
         }
         public string Name
         {
@@ -60,12 +58,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         public Product()
         {
             IsNew = true;
-            InstanceCount += 1;
-            _id = InstanceCount;
+            _guid = Guid.NewGuid();
         }
-        public Product(int id, string name, string description, double price)
+        public Product(Guid guid, string name, string description, double price)
         {
-            _id = id;
+            _guid = guid;
             _name = name;
             _description = description;
             _price = price;
@@ -76,7 +73,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         {
             var result = true;
 
-            if (Id <= 0)
+            if (Guid == Guid.Empty)
                 result = false;
             if (String.IsNullOrWhiteSpace(Name))
                 result = false;
@@ -88,7 +85,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 
         public string Log()
         {
-            return $"Customer {_id}: {_name}, Description: {_description}, Status: {State}";
+            return $"Customer {_guid}: {_name}, Description: {_description}, Status: {State}";
         }
 
         public override string ToString()

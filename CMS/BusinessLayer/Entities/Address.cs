@@ -4,9 +4,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
     public class Address : EntityBase
     {
-        private static int InstanceCount;
-
-        private int _id;
+        private Guid _guid;
         private int _type;
         private string _streetLine1;
         private string _streetLine2;
@@ -16,10 +14,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         private string _code;
 
 
-        public int Id
+        public Guid Guid
         {
-            get { return _id; }
-            private set { _id = value; }
+            get { return _guid; }
+            private set { _guid = value; }
         }
         public int Type
         {
@@ -110,12 +108,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         public Address()
         {
             IsNew = true;
-            InstanceCount += 1;
-            _id = InstanceCount;
+            _guid = Guid.NewGuid();
         }
-        public Address(int id, int type, string streetLine1, string streetLine2, string city, string stateOrRegion, string country, string code)
+        public Address(Guid guid, int type, string streetLine1, string streetLine2, string city, string stateOrRegion, string country, string code)
         {
-            _id = id;
+            _guid = guid;
             _type = type;
             _streetLine1 = streetLine1;
             _streetLine2 = streetLine2;
@@ -130,7 +127,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         {
             var result = true;
 
-            if (Id <= 0)
+            if (Guid == Guid.Empty)
                 result = false;
             if (String.IsNullOrWhiteSpace(StreetLine1))
                 result = false;

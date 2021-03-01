@@ -38,7 +38,7 @@ namespace AR.ProgrammingWithCSharp.CMS.DataAccessLayer
             var result = false;
             for (int i = 0; i < Length; i++)
             {
-                if (_records[i]["Id"] == id)
+                if (_records[i]["Id"] == id || _records[i]["Guid"] == id)
                 {
                     _records[i].Update(data);  
                     return true;

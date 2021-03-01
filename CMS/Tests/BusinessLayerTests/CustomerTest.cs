@@ -103,7 +103,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         }
 
         [Fact]
-        public void CustomerCounterTest()
+        public void CustomerGuidTest()
         {
             //Arrange
             var customer = new Customer();
@@ -113,8 +113,9 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Act            
 
             //Assert
-            Assert.Equal(customer1.Id, customer.Id + 1);
-            Assert.Equal(customer2.Id, customer1.Id + 1);
+            Assert.NotEqual(customer.Guid, customer1.Guid);
+            Assert.NotEqual(customer.Guid, customer2.Guid);
+            Assert.NotEqual(customer1.Guid, customer2.Guid);
         }
     }
 }

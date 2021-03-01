@@ -59,14 +59,14 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                         result = _storage.AddRecord(
                             new KeyValuePair<string, string>("Id", order.Id.ToString()),
                             new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
-                            new KeyValuePair<string, string>("AddressId", order.Address?.Id.ToString()),
+                            new KeyValuePair<string, string>("AddressId", order.Address?.Guid.ToString()),
                             new KeyValuePair<string, string>("Date", order.Date.ToString()));
                     }
                     else
                     {
                         result = _storage.UpdateRecord(order.Id.ToString(),
                             new KeyValuePair<string, string>("CustomerId", order.CustomerId.ToString()),
-                            new KeyValuePair<string, string>("AddressId", order.Address?.Id.ToString()),
+                            new KeyValuePair<string, string>("AddressId", order.Address?.Guid.ToString()),
                             new KeyValuePair<string, string>("Date", order.Date.ToString()));
                     }
                     SaveItems(order.Items);
@@ -94,17 +94,17 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                         if (item.IsNew)
                         {
                             _itemStorage.AddRecord(
-                                new KeyValuePair<string, string>("Id", item.Id.ToString()),
+                                new KeyValuePair<string, string>("Guid", item.Guid.ToString()),
                                 new KeyValuePair<string, string>("OrderId", item.OrderId.ToString()),
-                                new KeyValuePair<string, string>("ProductId", item.ProductId.ToString()),
+                                new KeyValuePair<string, string>("ProductGuid", item.ProductGuid.ToString()),
                                 new KeyValuePair<string, string>("PurchasePrice", item.PurchasePrice.ToString()),
                                 new KeyValuePair<string, string>("Quantity", item.Quantity.ToString()));
                         }
                         else
                         {
-                            _itemStorage.UpdateRecord(item.Id.ToString(),
+                            _itemStorage.UpdateRecord(item.Guid.ToString(),
                                 new KeyValuePair<string, string>("OrderId", item.OrderId.ToString()),
-                                new KeyValuePair<string, string>("ProductId", item.ProductId.ToString()),
+                                new KeyValuePair<string, string>("ProductId", item.ProductGuid.ToString()),
                                 new KeyValuePair<string, string>("PurchasePrice", item.PurchasePrice.ToString()),
                                 new KeyValuePair<string, string>("Quantity", item.Quantity.ToString()));
                         }
@@ -117,7 +117,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
         {
             int id = int.Parse(record["Id"]);
             var items = LoadItems(id);
-            var address = _addressRepository.Load(int.Parse(record["AddressId"]));
+            var address = _addressRepository.Load(Guid.Parse(record["AddressId"]));
             var newOrder = new Order(id, DateTime.Parse(record["Date"]), items, address, int.Parse(record["CustomerId"]));        
             return newOrder;
         }    
@@ -137,7 +137,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         private OrderItem CreateItem(Record record)
         {
-            var newOrder = new OrderItem(int.Parse(record["Id"]), int.Parse(record["OrderId"]), int.Parse(record["ProductId"]), double.Parse(record["PurchasePrice"]), int.Parse(record["Quantity"]));
+            var newOrder = new OrderItem(Guid.Parse(record["Guid"]), int.Parse(record["OrderId"]), Guid.Parse(record["ProductGuid"]), double.Parse(record["PurchasePrice"]), int.Parse(record["Quantity"]));
             return newOrder;
         }
         

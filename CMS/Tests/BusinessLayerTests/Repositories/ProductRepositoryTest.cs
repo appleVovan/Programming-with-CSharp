@@ -1,5 +1,6 @@
 ﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
+using System;
 using Xunit;
 
 namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
@@ -60,20 +61,20 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             productRepository.Save(product);
-            var loadedProduct = productRepository.Load(product.Id);
+            var loadedProduct = productRepository.Load(product.Guid);
             loadedProduct.Description = "Misc";
 
             //Act
             var saveResult = productRepository.Save(loadedProduct);
-            var result = productRepository.Load(loadedProduct.Id);
+            var result = productRepository.Load(loadedProduct.Guid);
 
             //Assert            
             Assert.True(saveResult);
             Assert.NotEqual(product, loadedProduct);
             Assert.NotEqual(loadedProduct, result);
             Assert.NotEqual(product, result);
-            Assert.Equal(product.Id, loadedProduct.Id);
-            Assert.Equal(product.Id, result.Id);
+            Assert.Equal(product.Guid, loadedProduct.Guid);
+            Assert.Equal(product.Guid, result.Guid);
             Assert.NotEqual(product.Description, loadedProduct.Description);
             Assert.Equal(loadedProduct.Description, result.Description);
         }
@@ -86,19 +87,19 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var product = new Product() { Name = "Twenty One Pilots Vinyl", Description = "Trench", Price = 50.0 };
             productRepository.Save(product);
-            var loadedProduct = productRepository.Load(product.Id);
+            var loadedProduct = productRepository.Load(product.Guid);
 
             //Act
             var saveResult = productRepository.Save(loadedProduct);
-            var result = productRepository.Load(loadedProduct.Id);
+            var result = productRepository.Load(loadedProduct.Guid);
 
             //Assert            
             Assert.False(saveResult);
             Assert.NotEqual(product, loadedProduct);
             Assert.NotEqual(loadedProduct, result);
             Assert.NotEqual(product, result);
-            Assert.Equal(product.Id, loadedProduct.Id);
-            Assert.Equal(product.Id, result.Id);
+            Assert.Equal(product.Guid, loadedProduct.Guid);
+            Assert.Equal(product.Guid, result.Guid);
             Assert.Equal(product.Description, loadedProduct.Description);
             Assert.Equal(loadedProduct.Description, result.Description);
         }
@@ -116,18 +117,18 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             productRepository.Save(product2);
 
             //Act
-            var result = productRepository.Load(product.Id);
-            var result2 = productRepository.Load(product2.Id);
+            var result = productRepository.Load(product.Guid);
+            var result2 = productRepository.Load(product2.Guid);
 
             //Assert            
             Assert.NotEqual(product, result);
-            Assert.Equal(product.Id, result.Id);
+            Assert.Equal(product.Guid, result.Guid);
             Assert.Equal(product.Name, result.Name);
             Assert.Equal(product.Description, result.Description);
             Assert.Equal(product.Price, result.Price);
 
             Assert.NotEqual(product2, result2);
-            Assert.Equal(product2.Id, result2.Id);
+            Assert.Equal(product2.Guid, result2.Guid);
             Assert.Equal(product2.Name, result2.Name);
             Assert.Equal(product2.Description, result2.Description);
             Assert.Equal(product2.Price, result2.Price);
@@ -144,7 +145,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             productRepository.Save(product);
 
             //Act
-            var result = productRepository.Load(0);
+            var result = productRepository.Load(Guid.NewGuid());
 
             //Assert            
             Assert.NotEqual(product, result);

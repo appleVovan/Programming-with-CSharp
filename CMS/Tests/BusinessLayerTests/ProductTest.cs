@@ -58,7 +58,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
         }
 
         [Fact]
-        public void ProductCounterTest()
+        public void ProductGuidTest()
         {
             //Arrange
             var product = new Product();
@@ -68,8 +68,9 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer
             //Act            
 
             //Assert
-            Assert.Equal(product1.Id, product.Id + 1);
-            Assert.Equal(product2.Id, product1.Id + 1);
+            Assert.NotEqual(product.Guid, product1.Guid);
+            Assert.NotEqual(product.Guid, product2.Guid);
+            Assert.NotEqual(product1.Guid, product2.Guid);
         }
     }
 }

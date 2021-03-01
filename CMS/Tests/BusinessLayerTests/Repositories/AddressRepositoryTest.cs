@@ -1,5 +1,6 @@
 ﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
+using System;
 using Xunit;
 
 namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
@@ -60,20 +61,20 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
-            var loadedAddress = addressRepository.Load(address.Id);
+            var loadedAddress = addressRepository.Load(address.Guid);
             loadedAddress.City = "Unknown";
 
             //Act
             var saveResult = addressRepository.Save(loadedAddress);
-            var result = addressRepository.Load(loadedAddress.Id);
+            var result = addressRepository.Load(loadedAddress.Guid);
 
             //Assert            
             Assert.True(saveResult);
             Assert.NotEqual(address, loadedAddress);
             Assert.NotEqual(loadedAddress, result);
             Assert.NotEqual(address, result);
-            Assert.Equal(address.Id, loadedAddress.Id);
-            Assert.Equal(address.Id, result.Id);
+            Assert.Equal(address.Guid, loadedAddress.Guid);
+            Assert.Equal(address.Guid, result.Guid);
             Assert.NotEqual(address.City, loadedAddress.City);
             Assert.Equal(loadedAddress.City, result.City);
         }
@@ -86,19 +87,19 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
 
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
             addressRepository.Save(address);
-            var loadedAddress = addressRepository.Load(address.Id);
+            var loadedAddress = addressRepository.Load(address.Guid);
 
             //Act
             var saveResult = addressRepository.Save(loadedAddress);
-            var result = addressRepository.Load(loadedAddress.Id);
+            var result = addressRepository.Load(loadedAddress.Guid);
 
             //Assert            
             Assert.False(saveResult);
             Assert.NotEqual(address, loadedAddress);
             Assert.NotEqual(loadedAddress, result);
             Assert.NotEqual(address, result);
-            Assert.Equal(address.Id, loadedAddress.Id);
-            Assert.Equal(address.Id, result.Id);
+            Assert.Equal(address.Guid, loadedAddress.Guid);
+            Assert.Equal(address.Guid, result.Guid);
             Assert.Equal(address.City, loadedAddress.City);
             Assert.Equal(loadedAddress.City, result.City);
         }
@@ -116,12 +117,12 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             addressRepository.Save(address2);
 
             //Act
-            var result = addressRepository.Load(address.Id);
-            var result2 = addressRepository.Load(address2.Id);
+            var result = addressRepository.Load(address.Guid);
+            var result2 = addressRepository.Load(address2.Guid);
 
             //Assert            
             Assert.NotEqual(address, result);
-            Assert.Equal(address.Id, result.Id);
+            Assert.Equal(address.Guid, result.Guid);
             Assert.Equal(address.StreetLine1, result.StreetLine1);
             Assert.Equal(address.StreetLine2, result.StreetLine2);
             Assert.Equal(address.City, result.City);
@@ -131,7 +132,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             Assert.Equal(address.Type, result.Type);
 
             Assert.NotEqual(address2, result2);
-            Assert.Equal(address2.Id, result2.Id);
+            Assert.Equal(address2.Guid, result2.Guid);
             Assert.Equal(address2.StreetLine1, result2.StreetLine1);
             Assert.Equal(address2.StreetLine2, result2.StreetLine2);
             Assert.Equal(address2.City, result2.City);
@@ -152,7 +153,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             addressRepository.Save(address);
 
             //Act
-            var result = addressRepository.Load(0);
+            var result = addressRepository.Load(Guid.NewGuid());
 
             //Assert            
             Assert.NotEqual(address, result);

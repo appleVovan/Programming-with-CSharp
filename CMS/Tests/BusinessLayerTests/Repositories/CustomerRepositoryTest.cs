@@ -1,5 +1,6 @@
 ﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories;
+using System;
 using Xunit;
 
 namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
@@ -85,23 +86,23 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
             customer.Addresses.Add(address);
             customerRepository.Save(customer);
-            var loadedCustomer = customerRepository.Load(customer.Id);
+            var loadedCustomer = customerRepository.Load(customer.Guid);
             loadedCustomer.LastName = "Apple";
 
             //Act
             var saveResult = customerRepository.Save(loadedCustomer);
-            var result = customerRepository.Load(loadedCustomer.Id);
+            var result = customerRepository.Load(loadedCustomer.Guid);
 
             //Assert            
             Assert.True(saveResult);
             Assert.NotEqual(customer, loadedCustomer);
             Assert.NotEqual(loadedCustomer, result);
             Assert.NotEqual(customer, result);
-            Assert.Equal(customer.Id, loadedCustomer.Id);
-            Assert.Equal(customer.Id, result.Id);
+            Assert.Equal(customer.Guid, loadedCustomer.Guid);
+            Assert.Equal(customer.Guid, result.Guid);
             Assert.NotEqual(customer.LastName, loadedCustomer.LastName);
             Assert.Equal(loadedCustomer.LastName, result.LastName);
-            Assert.Equal(loadedCustomer.Addresses[0].Id, result.Addresses[0].Id);
+            Assert.Equal(loadedCustomer.Addresses[0].Guid, result.Addresses[0].Guid);
         }
 
         [Fact]
@@ -117,22 +118,22 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var customer = new Customer() { FirstName = "Volodymyr", LastName = "Yablonskyi", Email = "yvr@gmail.com" };
             customer.Addresses.Add(address);
             customerRepository.Save(customer);
-            var loadedCustomer = customerRepository.Load(customer.Id);
+            var loadedCustomer = customerRepository.Load(customer.Guid);
 
             //Act
             var saveResult = customerRepository.Save(loadedCustomer);
-            var result = customerRepository.Load(loadedCustomer.Id);
+            var result = customerRepository.Load(loadedCustomer.Guid);
 
             //Assert            
             Assert.False(saveResult);
             Assert.NotEqual(customer, loadedCustomer);
             Assert.NotEqual(loadedCustomer, result);
             Assert.NotEqual(customer, result);
-            Assert.Equal(customer.Id, loadedCustomer.Id);
-            Assert.Equal(customer.Id, result.Id);
+            Assert.Equal(customer.Guid, loadedCustomer.Guid);
+            Assert.Equal(customer.Guid, result.Guid);
             Assert.Equal(customer.LastName, loadedCustomer.LastName);
             Assert.Equal(loadedCustomer.LastName, result.LastName);
-            Assert.Equal(loadedCustomer.Addresses[0].Id, result.Addresses[0].Id);
+            Assert.Equal(loadedCustomer.Addresses[0].Guid, result.Addresses[0].Guid);
         }
 
         [Fact]
@@ -158,12 +159,12 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             customerRepository.Save(customer2);
 
             //Act
-            var result = customerRepository.Load(customer.Id);
-            var result2 = customerRepository.Load(customer2.Id);
+            var result = customerRepository.Load(customer.Guid);
+            var result2 = customerRepository.Load(customer2.Guid);
 
             //Assert            
             Assert.NotEqual(customer, result);
-            Assert.Equal(customer.Id, result.Id);
+            Assert.Equal(customer.Guid, result.Guid);
             Assert.Equal(customer.FirstName, result.FirstName);
             Assert.Equal(customer.LastName, result.LastName);
             Assert.Equal(customer.Email, result.Email);
@@ -176,7 +177,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             Assert.Equal(customer.Addresses[0].Type, result.Addresses[0].Type);
 
             Assert.NotEqual(customer2, result2);
-            Assert.Equal(customer2.Id, result2.Id);
+            Assert.Equal(customer2.Guid, result2.Guid);
             Assert.Equal(customer2.FirstName, result2.FirstName);
             Assert.Equal(customer2.LastName, result2.LastName);
             Assert.Equal(customer2.Email, result2.Email);
@@ -206,7 +207,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             customerRepository.Save(customer);
 
             //Act
-            var result = customerRepository.Load(0);
+            var result = customerRepository.Load(Guid.NewGuid());
 
             //Assert            
             Assert.NotEqual(customer, result);

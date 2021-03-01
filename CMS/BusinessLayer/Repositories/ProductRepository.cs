@@ -1,6 +1,7 @@
 ﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.DataAccessLayer;
 using System.Collections.Generic;
+using System;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 {
@@ -19,11 +20,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             }
             return result;
         }
-        public Product Load(int id)
+        public Product Load(Guid guid)
         {
             for (int i=0; i<_storage.Length; i++)
             {
-                if (int.Parse(_storage[i]["Id"]) == id)
+                if (Guid.Parse(_storage[i]["Guid"]) == guid)
                 {
                     var newProduct = CreateProduct(_storage[i]);
                     return newProduct;
@@ -42,14 +43,14 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                     if (product.IsNew)
                     {
                         result = _storage.AddRecord(
-                            new KeyValuePair<string, string>("Id", product.Id.ToString()),
+                            new KeyValuePair<string, string>("Guid", product.Guid.ToString()),
                             new KeyValuePair<string, string>("Name", product.Name),
                             new KeyValuePair<string, string>("Description", product.Description),
                             new KeyValuePair<string, string>("Price", product.Price.ToString()));
                     }
                     else
                     {
-                        result = _storage.UpdateRecord(product.Id.ToString(),
+                        result = _storage.UpdateRecord(product.Guid.ToString(),
                             new KeyValuePair<string, string>("Name", product.Name),
                             new KeyValuePair<string, string>("Description", product.Description),
                             new KeyValuePair<string, string>("Price", product.Price.ToString()));
@@ -69,7 +70,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         private Product CreateProduct(Record record)
         {
-            var newProduct = new Product(int.Parse(record["Id"]), record["Name"], record["Description"], double.Parse(record["Price"]));
+            var newProduct = new Product(Guid.Parse(record["Guid"]), record["Name"], record["Description"], double.Parse(record["Price"]));
             return newProduct;
         }
     }

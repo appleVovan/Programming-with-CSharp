@@ -5,29 +5,27 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
     public class OrderItem : EntityBase
     {
-        private static int InstanceCount;
-
-        private int _id;
-        private int _productId;
+        private Guid _guid;
+        private Guid _productGuid;
         private double? _purchasePrice;
         private int _quantity;
         private int _orderId;
 
 
-        public int Id
+        public Guid Guid
         {
-            get { return _id; }
-            private set { _id = value; }
+            get { return _guid; }
+            private set { _guid = value; }
         }
-        public int ProductId
+        public Guid ProductGuid
         {
             get
             {
-                return _productId;
+                return _productGuid;
             }
             set
             {
-                _productId = value;
+                _productGuid = value;
                 HasChanges = true;
             }
         }
@@ -65,15 +63,14 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         public OrderItem(int orderId)
         {
             IsNew = true;
-            InstanceCount += 1;
-            _id = InstanceCount;
+            _guid = Guid.NewGuid();
             _orderId = orderId;
         }
-        public OrderItem(int id, int orderId, int productId, double purchasePrice, int quantity)
+        public OrderItem(Guid guid, int orderId, Guid productGuid, double purchasePrice, int quantity)
         {
-            _id = id;
+            _guid = guid;
             _orderId = orderId;
-            _productId = productId;
+            _productGuid = productGuid;
             _purchasePrice = purchasePrice;
             _quantity = quantity;
         }
@@ -83,11 +80,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         {
             var result = true;
 
-            if (Id <= 0)
+            if (Guid == Guid.Empty)
                 result = false;
             if (OrderId <= 0)
                 result = false;
-            if (ProductId <= 0)
+            if (ProductGuid == Guid.Empty)
                 result = false;
             if (Quantity <= 0)
                 result = false;

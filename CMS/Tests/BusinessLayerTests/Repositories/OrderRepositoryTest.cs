@@ -16,7 +16,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -36,7 +36,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var address = new Address() { StreetLine1 = "Awesome 5 street", City = "Awesome Town", StateOrRegion = "AS", Country = "United Satetes of Awesomeness", Code = "12492", Type = 1 };
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -54,7 +54,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var orderRepository = new OrderRepository();
 
             var order = new Order();
-            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
 
             order.Items.Add(orderItem);
 
@@ -76,7 +76,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             addressRepository.Save(address);
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
             orderRepository.Save(order);
@@ -112,7 +112,7 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             addressRepository.Save(address);
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
             orderRepository.Save(order);
@@ -149,11 +149,11 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             var orderRepository = new OrderRepository(addressRepository);
 
             var order = new Order() { Date = new DateTime(2021, 01, 14, 15, 0, 0), CustomerId = 1, Address = address };
-            var orderItem = new OrderItem(order.Id) { ProductId = 1, PurchasePrice = 10.00, Quantity = 1 };
+            var orderItem = new OrderItem(order.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 10.00, Quantity = 1 };
             order.Items.Add(orderItem);
 
             var order2 = new Order() { Date = new DateTime(2021, 01, 14, 16, 0, 0), CustomerId = 2, Address = address2 };
-            var orderItem2 = new OrderItem(order2.Id) { ProductId = 2, PurchasePrice = 20.00, Quantity = 1 };
+            var orderItem2 = new OrderItem(order2.Id) { ProductGuid = Guid.NewGuid(), PurchasePrice = 20.00, Quantity = 1 };
             order2.Items.Add(orderItem2);
 
             orderRepository.Save(order);
@@ -168,12 +168,12 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             Assert.Equal(order.Id, result.Id);
             Assert.Equal(order.Date, result.Date);
             Assert.Equal(order.CustomerId, result.CustomerId);
-            Assert.Equal(order.Address.Id, result.Address.Id);
+            Assert.Equal(order.Address.Guid, result.Address.Guid);
             Assert.Equal(order.Items.Count, result.Items.Count);
             Assert.NotEqual(orderItem, result.Items[0]);
-            Assert.Equal(orderItem.Id, result.Items[0].Id);
+            Assert.Equal(orderItem.Guid, result.Items[0].Guid);
             Assert.Equal(orderItem.OrderId, result.Items[0].OrderId);
-            Assert.Equal(orderItem.ProductId, result.Items[0].ProductId);
+            Assert.Equal(orderItem.ProductGuid, result.Items[0].ProductGuid);
             Assert.Equal(orderItem.PurchasePrice, result.Items[0].PurchasePrice);
             Assert.Equal(orderItem.Quantity, result.Items[0].Quantity);
 
@@ -181,12 +181,12 @@ namespace AR.ProgrammingWithCSharp.CMS.Tests.BusinessLayer.Repositories
             Assert.Equal(order2.Id, result2.Id);
             Assert.Equal(order2.Date, result2.Date);
             Assert.Equal(order2.CustomerId, result2.CustomerId);
-            Assert.Equal(order2.Address.Id, result2.Address.Id);
+            Assert.Equal(order2.Address.Guid, result2.Address.Guid);
             Assert.Equal(order2.Items.Count, result2.Items.Count);
             Assert.NotEqual(orderItem2, result2.Items[0]);
-            Assert.Equal(orderItem2.Id, result2.Items[0].Id);
+            Assert.Equal(orderItem2.Guid, result2.Items[0].Guid);
             Assert.Equal(orderItem2.OrderId, result2.Items[0].OrderId);
-            Assert.Equal(orderItem2.ProductId, result2.Items[0].ProductId);
+            Assert.Equal(orderItem2.ProductGuid, result2.Items[0].ProductGuid);
             Assert.Equal(orderItem2.PurchasePrice, result2.Items[0].PurchasePrice);
             Assert.Equal(orderItem2.Quantity, result2.Items[0].Quantity);
         }

@@ -6,9 +6,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 {
     public class Customer : EntityBase, ILoggable
     {
-        private static int InstanceCount;
-
-        private int _id;
+        private Guid _guid;
         private string _lastName;
         private string _firstName;
         private string _email;
@@ -16,10 +14,10 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         private int _type;
 
 
-        public int Id
+        public Guid Guid
         {
-            get { return _id; }
-            private set { _id = value; }
+            get { return _guid; }
+            private set { _guid = value; }
         }
         public string LastName
         {
@@ -97,13 +95,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         public Customer()
         {
             IsNew = true;
-            InstanceCount += 1;
-            _id = InstanceCount;
+            _guid = Guid.NewGuid();
             _addresses = new List<Address>();
         }
-        public Customer(int id, string lastName, string firstName, string email, List<Address> addresses, int type)
+        public Customer(Guid guid, string lastName, string firstName, string email, List<Address> addresses, int type)
         {
-            _id = id;
+            _guid = guid;
             _lastName = lastName;
             _firstName = firstName;
             _email = email;
@@ -116,7 +113,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
         {
             var result = true;
 
-            if (Id <= 0)
+            if (Guid == Guid.Empty)
                 result = false;
             if (String.IsNullOrWhiteSpace(LastName))
                 result = false;
@@ -128,7 +125,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities
 
         public string Log()
         {
-            return $"Customer {_id}: {_lastName}, {_firstName}, Email: {_email}, Status: {State}";
+            return $"Customer {_guid}: {_lastName}, {_firstName}, Email: {_email}, Status: {State}";
         }
 
         public override string ToString()

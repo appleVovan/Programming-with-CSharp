@@ -1,5 +1,6 @@
 ﻿using AR.ProgrammingWithCSharp.CMS.BusinessLayer.Entities;
 using AR.ProgrammingWithCSharp.CMS.DataAccessLayer;
+using System;
 using System.Collections.Generic;
 
 namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
@@ -19,11 +20,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             }
             return result;
         }
-        public Address Load(int id)
+        public Address Load(Guid guid)
         {
             for (int i=0; i<_storage.Length; i++)
             {
-                if (int.Parse(_storage[i]["Id"]) == id)
+                if (Guid.Parse(_storage[i]["Guid"]) == guid)
                 {
                     var newAddress = CreateAddress(_storage[i]);
                     return newAddress;
@@ -32,12 +33,12 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             return null;
         }
 
-        public List<Address> Load(List<int> ids)
+        public List<Address> Load(List<Guid> guids)
         {
             var result = new List<Address>();
             for (int i=0; i<_storage.Length; i++)
             {
-                if (ids.Contains(int.Parse(_storage[i]["Id"])))
+                if (guids.Contains(Guid.Parse(_storage[i]["Guid"])))
                 {
                     var newAddress = CreateAddress(_storage[i]);
                     result.Add(newAddress);
@@ -56,7 +57,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                     if (address.IsNew)
                     {
                         result = _storage.AddRecord(
-                            new KeyValuePair<string, string>("Id", address.Id.ToString()),
+                            new KeyValuePair<string, string>("Guid", address.Guid.ToString()),
                             new KeyValuePair<string, string>("StreetLine1", address.StreetLine1),
                             new KeyValuePair<string, string>("StreetLine2", address.StreetLine2),
                             new KeyValuePair<string, string>("City", address.City),
@@ -67,7 +68,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                     }
                     else
                     {
-                        result = _storage.UpdateRecord(address.Id.ToString(),
+                        result = _storage.UpdateRecord(address.Guid.ToString(),
                             new KeyValuePair<string, string>("StreetLine1", address.StreetLine1),
                             new KeyValuePair<string, string>("StreetLine2", address.StreetLine2),
                             new KeyValuePair<string, string>("City", address.City),
@@ -91,7 +92,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         private Address CreateAddress(Record record)
         {
-            var newAddress = new Address(int.Parse(record["Id"]), int.Parse(record["Type"]), record["StreetLine1"], 
+            var newAddress = new Address(Guid.Parse(record["Guid"]), int.Parse(record["Type"]), record["StreetLine1"], 
                 record["StreetLine2"], record["City"], record["StateOrRegion"], record["Country"], record["Code"]);
             return newAddress;
         }

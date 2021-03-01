@@ -33,11 +33,11 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
             }
             return result;
         }
-        public Customer Load(int id)
+        public Customer Load(Guid guid)
         {
             for (int i=0; i<_storage.Length; i++)
             {
-                if (int.Parse(_storage[i]["Id"]) == id)
+                if (Guid.Parse(_storage[i]["Guid"]) == guid)
                 {
                     var newCustomer = CreateCustomer(_storage[i]);
                     return newCustomer;
@@ -58,7 +58,7 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                     if (customer.IsNew)
                     {
                         result = _storage.AddRecord(
-                            new KeyValuePair<string, string>("Id", customer.Id.ToString()),
+                            new KeyValuePair<string, string>("Guid", customer.Guid.ToString()),
                             new KeyValuePair<string, string>("FirstName", customer.FirstName),
                             new KeyValuePair<string, string>("LastName", customer.LastName),
                             new KeyValuePair<string, string>("Email", customer.Email),
@@ -66,18 +66,18 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
                     }
                     else
                     {
-                        result = _storage.UpdateRecord(customer.Id.ToString(),
+                        result = _storage.UpdateRecord(customer.Guid.ToString(),
                             new KeyValuePair<string, string>("FirstName", customer.FirstName),
                             new KeyValuePair<string, string>("LastName", customer.LastName),
                             new KeyValuePair<string, string>("Email", customer.Email),
                             new KeyValuePair<string, string>("Type", customer.Type.ToString()));
-                        _customerToAddressStorage.RemoveAllMatchingRecords("CustomerId", customer.Id.ToString());
+                        _customerToAddressStorage.RemoveAllMatchingRecords("CustomerGuid", customer.Guid.ToString());
                     }
                     foreach (var address in customer.Addresses)
                     {
                         _customerToAddressStorage.AddRecord(
-                            new KeyValuePair<string, string>("CustomerId", customer.Id.ToString()), 
-                            new KeyValuePair<string, string>("AddressId", address.Id.ToString()));
+                            new KeyValuePair<string, string>("CustomerGuid", customer.Guid.ToString()), 
+                            new KeyValuePair<string, string>("AddressGuid", address.Guid.ToString()));
                     }
                 }
                 else
@@ -94,23 +94,23 @@ namespace AR.ProgrammingWithCSharp.CMS.BusinessLayer.Repositories
 
         private Customer CreateCustomer(Record record)
         {
-            int id = int.Parse(record["Id"]);
-            var addresses = LoadAddresses(id);
-            var newCustomer = new Customer(id, record["LastName"], record["FirstName"], record["Email"], addresses, int.Parse(record["Type"]));
+            Guid guid = Guid.Parse(record["Guid"]);
+            var addresses = LoadAddresses(guid);
+            var newCustomer = new Customer(guid, record["LastName"], record["FirstName"], record["Email"], addresses, int.Parse(record["Type"]));
             return newCustomer;
         }
 
-        private List<Address> LoadAddresses(int customerId)
+        private List<Address> LoadAddresses(Guid customerGuid)
         {
-            var addressIds = new List<int>();
+            var addressGuids = new List<Guid>();
             for (int i=0; i<_customerToAddressStorage.Length; i++)
             {
-                if (int.Parse(_customerToAddressStorage[i]["CustomerId"]) == customerId)
+                if (Guid.Parse(_customerToAddressStorage[i]["CustomerGuid"]) == customerGuid)
                 {
-                    addressIds.Add(int.Parse(_customerToAddressStorage[i]["AddressId"]));
+                    addressGuids.Add(Guid.Parse(_customerToAddressStorage[i]["AddressGuid"]));
                 }                
             }
-            return _addressRepository.Load(addressIds);
+            return _addressRepository.Load(addressGuids);
         }
     }
 }
