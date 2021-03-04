@@ -21,7 +21,7 @@ namespace AV.ProgrammingWithCSharp.HelloWorld
                 }
                 else
                 {
-                    Console.WriteLine("Hello " + userInput + "!");
+                    Console.WriteLine($"Hello {userInput}!");
                 }
             }            
         }

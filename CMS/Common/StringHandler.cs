@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace AR.ProgrammingWithCSharp.CMS.Common
 {
@@ -6,22 +7,22 @@ namespace AR.ProgrammingWithCSharp.CMS.Common
     {
         public static string InsertSpaces(this string source)
         {
-            var result = "";
+            var result = new StringBuilder();
             if (!String.IsNullOrWhiteSpace(source))
             {
                 foreach(var letter in source)
                 {
                     if (Char.IsUpper(letter))
                     {
-                        if (!String.IsNullOrWhiteSpace(result) && result[result.Length - 1]!=' ')
+                        if (result.Length > 0 && result[result.Length - 1]!=' ')
                         {
-                            result += " ";
+                            result.Append(' ');
                         }
                     }
-                    result += letter;
+                    result.Append(letter);
                 }
             }
-            return result;            
+            return result.ToString();            
         }
     }
 }
