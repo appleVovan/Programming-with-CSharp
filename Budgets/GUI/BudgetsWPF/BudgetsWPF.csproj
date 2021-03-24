@@ -13,7 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Authentication\SignUpView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>

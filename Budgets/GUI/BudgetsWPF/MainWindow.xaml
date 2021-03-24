@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BudgetsWPF"
         xmlns:wpf="clr-namespace:AV.ProgrammingWithCSharp.Budgets.GUI.WPF"
+        xmlns:authentication="clr-namespace:AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" FontSize="18">
     <Grid>
@@ -17,6 +18,6 @@
         <wpf:Header></wpf:Header>
 
         <!--Main Control-->
-        <wpf:SignInView Grid.Row="1"></wpf:SignInView>
+        <wpf:MainView Grid.Row="1"></wpf:MainView>
     </Grid>
 </Window>
