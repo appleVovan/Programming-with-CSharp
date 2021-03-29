@@ -12,6 +12,7 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF
         public MainWindow()
         {
             InitializeComponent();
+            
         }
     }
 }

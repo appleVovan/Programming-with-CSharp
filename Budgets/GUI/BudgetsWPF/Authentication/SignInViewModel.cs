@@ -1,17 +1,42 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
+using AV.ProgrammingWithCSharp.Budgets.Models.Users;
+using AV.ProgrammingWithCSharp.Budgets.Services;
 using Prism.Commands;
 
 namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
 {
-    public class SignInViewModel : INotifyPropertyChanged
+    public class SignInViewModel : INotifyPropertyChanged, IAuthNavigatable
     {
         private AuthenticationUser _authUser = new AuthenticationUser();
         private Action _gotoSignUp;
         private Action _gotoWallets;
+        private bool _isEnabled = true;
 
+
+        public bool IsEnabled
+        {
+            get
+            {
+                return _isEnabled;
+            }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public AuthNavigatableTypes Type
+        {
+            get
+            {
+                return AuthNavigatableTypes.SignIn;
+            }
+        }
         public string Login
         {
             get
@@ -28,7 +53,6 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
                 }
             }
         }
-
         public string Password
         {
             get
@@ -59,7 +83,7 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
             _gotoWallets = gotoWallets;
         }
 
-        private void SignIn()
+        private async void SignIn()
         {
             if (String.IsNullOrWhiteSpace(Login) || String.IsNullOrWhiteSpace(Password))
                 MessageBox.Show("Login or password is empty.");
@@ -69,12 +93,17 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
                 User user = null;
                 try
                 {
-                    user = authService.Authenticate(_authUser);
+                    IsEnabled = false;
+                    user = await Task.Run(() => authService.Authenticate(_authUser));
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Sign In failed: {ex.Message}");
                     return;
+                }
+                finally
+                {
+                    IsEnabled = true;
                 }
                 MessageBox.Show($"Sign In was successful for user {user.FirstName} {user.LastName}");
                 _gotoWallets.Invoke();
@@ -86,11 +115,19 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
             return !String.IsNullOrWhiteSpace(Login) && !String.IsNullOrWhiteSpace(Password);
         }
 
+        public void ClearSensitiveData()
+        {
+            Password = "";
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        
     }
 }

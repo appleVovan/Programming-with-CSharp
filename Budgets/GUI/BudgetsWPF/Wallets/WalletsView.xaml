@@ -6,5 +6,8 @@
              xmlns:local="clr-namespace:AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Wallets"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    "This is our main application View"
+    <Grid>
+        <ListView ItemsSource="{Binding Wallets}">
+        </ListView>
+    </Grid>
 </UserControl>

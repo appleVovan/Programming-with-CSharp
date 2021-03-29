@@ -2,14 +2,24 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using AV.ProgrammingWithCSharp.Budgets.Models.Users;
+using AV.ProgrammingWithCSharp.Budgets.Services;
 using Prism.Commands;
 
 namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
 {
-    public class SignUpViewModel : INotifyPropertyChanged
+    public class SignUpViewModel : INotifyPropertyChanged, IAuthNavigatable
     {
         private RegistrationUser _regUser = new RegistrationUser();
         private Action _gotoSignIn;
+        
+        public AuthNavigatableTypes Type
+        {
+            get
+            {
+                return AuthNavigatableTypes.SignUp;
+            }
+        }
 
         public string Login
         {
@@ -95,6 +105,11 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
         private bool IsSignUpEnabled()
         {
             return !String.IsNullOrWhiteSpace(Login) && !String.IsNullOrWhiteSpace(Password) && !String.IsNullOrWhiteSpace(LastName);
+        }
+
+        public void ClearSensitiveData()
+        {
+            _regUser = new RegistrationUser();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

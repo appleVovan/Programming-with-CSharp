@@ -1,4 +1,4 @@
-﻿namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF
+﻿namespace AV.ProgrammingWithCSharp.Budgets.Models.Users
 {
     public class AuthenticationUser
     {

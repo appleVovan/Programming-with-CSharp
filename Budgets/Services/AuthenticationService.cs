@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using AV.ProgrammingWithCSharp.Budgets.Models.Users;
 
-namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
+namespace AV.ProgrammingWithCSharp.Budgets.Services
 {
     public class AuthenticationService
     {
-        private static List<DBUser> Users = new List<DBUser>();
+        private static List<DBUser> Users = new List<DBUser>() {new DBUser("1", "1", "1", "1", "1")};
 
         public User Authenticate(AuthenticationUser authUser)
         {
+            Thread.Sleep(2000);
             if (String.IsNullOrWhiteSpace(authUser.Login) || String.IsNullOrWhiteSpace(authUser.Password))
                 throw new ArgumentException("Login or Password is Empty");
             var dbUser = Users.FirstOrDefault(user => user.Login == authUser.Login && user.Password == authUser.Password);
@@ -20,6 +23,7 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
 
         public bool RegisterUser(RegistrationUser regUser)
         {
+            Thread.Sleep(2000);
             var dbUser = Users.FirstOrDefault(user => user.Login == regUser.Login);
             if (dbUser != null)
                 throw new Exception("User already exists");
