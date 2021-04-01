@@ -3,13 +3,14 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Navigation;
 using AV.ProgrammingWithCSharp.Budgets.Models.Users;
 using AV.ProgrammingWithCSharp.Budgets.Services;
 using Prism.Commands;
 
 namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
 {
-    public class SignInViewModel : INotifyPropertyChanged, IAuthNavigatable
+    public class SignInViewModel : INotifyPropertyChanged, INavigatable<AuthNavigatableTypes>
     {
         private AuthenticationUser _authUser = new AuthenticationUser();
         private Action _gotoSignUp;
@@ -94,7 +95,7 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
                 try
                 {
                     IsEnabled = false;
-                    user = await Task.Run(() => authService.Authenticate(_authUser));
+                    user = await authService.AuthenticateAsync(_authUser);
                 }
                 catch (Exception ex)
                 {

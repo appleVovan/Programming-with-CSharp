@@ -1,43 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication;
+﻿using AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication;
+using AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Navigation;
 using AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Wallets;
-using Prism.Mvvm;
 
 namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF
 {
-    public class MainViewModel : BindableBase
+    public class MainViewModel : NavigationBase<MainNavigatableTypes>
     {
-        private List<IMainNavigatable> _viewModels = new List<IMainNavigatable>();
-
-        public IMainNavigatable CurrentViewModel
-        {
-            get;
-            private set;
-        }
         public MainViewModel()
         {
             Navigate(MainNavigatableTypes.Auth);
         }
-
-        public void Navigate(MainNavigatableTypes type)
-        {
-            if (CurrentViewModel!=null && CurrentViewModel.Type == type)
-                return;
-            IMainNavigatable viewModel = _viewModels.FirstOrDefault(authNavigatable => authNavigatable.Type == type);
-
-            if (viewModel == null)
-            {
-                viewModel = CreateViewModel(type);
-                _viewModels.Add(viewModel);
-            }
-            viewModel.ClearSensitiveData();
-            CurrentViewModel = viewModel;
-            RaisePropertyChanged(nameof(CurrentViewModel));
-        }
-
-        private IMainNavigatable CreateViewModel(MainNavigatableTypes type)
+        
+        protected override INavigatable<MainNavigatableTypes> CreateViewModel(MainNavigatableTypes type)
         {
             if (type == MainNavigatableTypes.Auth)
             {

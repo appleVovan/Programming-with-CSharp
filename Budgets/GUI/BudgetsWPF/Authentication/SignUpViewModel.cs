@@ -2,13 +2,14 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Navigation;
 using AV.ProgrammingWithCSharp.Budgets.Models.Users;
 using AV.ProgrammingWithCSharp.Budgets.Services;
 using Prism.Commands;
 
 namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
 {
-    public class SignUpViewModel : INotifyPropertyChanged, IAuthNavigatable
+    public class SignUpViewModel : INotifyPropertyChanged, INavigatable<AuthNavigatableTypes>
     {
         private RegistrationUser _regUser = new RegistrationUser();
         private Action _gotoSignIn;
@@ -84,13 +85,13 @@ namespace AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication
             SignInCommand = new DelegateCommand(_gotoSignIn);
         }
 
-        private void SignUp()
+        private async void SignUp()
         {
 
             var authService = new AuthenticationService();
             try
             {
-                authService.RegisterUser(_regUser);
+                await authService.RegisterUserAsync(_regUser);
             }
             catch (Exception ex)
             {

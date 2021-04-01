@@ -7,7 +7,7 @@
         xmlns:wpf="clr-namespace:AV.ProgrammingWithCSharp.Budgets.GUI.WPF"
         xmlns:authentication="clr-namespace:AV.ProgrammingWithCSharp.Budgets.GUI.WPF.Authentication"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontSize="18">
+        Title="MainWindow" Height="450" Width="800" MinWidth="600" FontSize="18">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="100"></RowDefinition>
